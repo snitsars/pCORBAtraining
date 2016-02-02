@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting;
+using System.Runtime.Remoting.Channels;
+using System.Threading;
 using Ch.Elca.Iiop;
 
 namespace Org.Uneta.Iiopnet.Examples.First
 {
-    class FirstClient
+    internal class FirstClient
     {
         [STAThread]
         public static int Main(string[] args)
         {
-            int result = -1;
+            var result = -1;
             try
             {
                 // Адрес CORBA-сервера.
@@ -19,25 +20,24 @@ namespace Org.Uneta.Iiopnet.Examples.First
 
                 // Запрашиваем имя пользователя.
                 Console.WriteLine("Enter your name please: ");
-                string userName = Console.ReadLine();
 
                 // Регистрируем канал IIOP.
-                IiopClientChannel channel = new IiopClientChannel();
+                var channel = new IiopClientChannel();
                 ChannelServices.RegisterChannel(channel);
 
                 // Адрес CORBA-сервера.
-                string addressString = "iiop://localhost:1234/hello";
+                var addressString = "iiop://localhost:1234/hello";
                 // Получаем ссылку на клиентский прокси.
-                IHello hello = (IHello)RemotingServices.Connect(typeof(IHello), addressString);
-                
+                var hello = (IHello) RemotingServices.Connect(typeof (IHello), addressString);
+
                 // Вызываем CORBA-метод.
-                string serverResponse = hello.SayHello(userName);
+                string serverResponse = hello.SayHello(Environment.UserName);
                 //serverResponse = hello.AddVAlue(5,10);
                 // Выводим ответ.
                 Console.WriteLine("Server ansver is: " + serverResponse);
-                Console.ReadLine();
+                Thread.Sleep(1000);
                 result = 0;
-            } 
+            }
             catch (Exception e)
             {
                 Console.WriteLine("Exception was raised: " + e);
@@ -46,4 +46,3 @@ namespace Org.Uneta.Iiopnet.Examples.First
         }
     }
 }
-
