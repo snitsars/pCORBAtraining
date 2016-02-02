@@ -10,16 +10,11 @@ namespace Org.Uneta.Iiopnet.Examples.First
         [STAThread]
         public static int Main(string[] args)
         {
-            int result = -1;
             try
             {
                 // Адрес CORBA-сервера.
                 const string serverHost = "localhost";
                 const int serverPort = 1234;
-
-                // Запрашиваем имя пользователя.
-                Console.WriteLine("Enter your name please: ");
-                string userName = Console.ReadLine();
 
                 // Регистрируем канал IIOP.
                 IiopClientChannel channel = new IiopClientChannel();
@@ -29,20 +24,19 @@ namespace Org.Uneta.Iiopnet.Examples.First
                 string addressString = "iiop://localhost:1234/hello";
                 // Получаем ссылку на клиентский прокси.
                 IHello hello = (IHello)RemotingServices.Connect(typeof(IHello), addressString);
-                
-                // Вызываем CORBA-метод.
-                string serverResponse = hello.SayHello(userName);
-                //serverResponse = hello.AddVAlue(5,10);
-                // Выводим ответ.
-                Console.WriteLine("Server ansver is: " + serverResponse);
-                Console.ReadLine();
-                result = 0;
+
+                // tests
+
+                if ("5" != hello.AddVAlue(2, 3)) return -1;
+
+                if ("Hello by CORBA, Andy." != hello.SayHello("Andy")) return -1;
             } 
             catch (Exception e)
             {
                 Console.WriteLine("Exception was raised: " + e);
+                return -1;
             }
-            return result;
+            return 0;
         }
     }
 }
