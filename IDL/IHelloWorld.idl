@@ -1,0 +1,15 @@
+#ifndef __org_uneta_iiopnet_examples_first__
+#define __org_uneta_iiopnet_examples_first__
+
+#pragma prefix "Org.Uneta.Iiopnet.Examples"
+
+module First
+{
+	interface IHello
+	{
+		wstring AddVAlue(in long a, in long b);
+		wstring SayHello(in wstring name);
+	};
+};
+
+#endif
