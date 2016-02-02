@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IDL", "IDL", "{B8ABADF0-B1D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cpp", "Cpp", "{594765AE-B4FC-4EC2-B58E-78F530E97FE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{489826B9-3FA0-48B7-B708-4CB202E33BE6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{06B8BCFF-7887-4DCE-B451-0DCA831D4A2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06B8BCFF-7887-4DCE-B451-0DCA831D4A2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06B8BCFF-7887-4DCE-B451-0DCA831D4A2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{489826B9-3FA0-48B7-B708-4CB202E33BE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{489826B9-3FA0-48B7-B708-4CB202E33BE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{489826B9-3FA0-48B7-B708-4CB202E33BE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{489826B9-3FA0-48B7-B708-4CB202E33BE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

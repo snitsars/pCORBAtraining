@@ -8,8 +8,9 @@ namespace Org.Uneta.Iiopnet.Examples.First
     class FirstClient
     {
         [STAThread]
-        public static void Main(string[] args)
+        public static int Main(string[] args)
         {
+            int result = -1;
             try
             {
                 // Адрес CORBA-сервера.
@@ -31,15 +32,17 @@ namespace Org.Uneta.Iiopnet.Examples.First
                 
                 // Вызываем CORBA-метод.
                 string serverResponse = hello.SayHello(userName);
-                serverResponse = hello.AddVAlue(5,10);
+                //serverResponse = hello.AddVAlue(5,10);
                 // Выводим ответ.
                 Console.WriteLine("Server ansver is: " + serverResponse);
                 Console.ReadLine();
+                result = 0;
             } 
             catch (Exception e)
             {
                 Console.WriteLine("Exception was raised: " + e);
             }
+            return result;
         }
     }
 }
