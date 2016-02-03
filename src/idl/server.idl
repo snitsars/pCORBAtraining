@@ -1,8 +1,0 @@
-module test{
-
-	interface IServer {
-		long add(in long agr1, in long arg2);
-	};
-
-};
-
