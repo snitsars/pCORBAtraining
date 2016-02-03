@@ -7,7 +7,7 @@ module First
 {
 	interface IHello
 	{
-		wstring AddVAlue(in long a, in long b);
+		long AddValue(in long a, in long b);
 		wstring SayHello(in wstring name);
 	};
 };

@@ -1,4 +1,4 @@
-#include "..\server_cpp\server.hh"
+#include "..\server_cpp\IHelloWorld.hh"
 #include <iostream>
 
 int main(int argc, char** argv)
@@ -15,9 +15,9 @@ int main(int argc, char** argv)
 	name[0].id = CORBA::string_dup("testService");
 
 	CORBA::Object_var obj1 = ns->resolve(name);
-	test::IServer_ptr ref = test::IServer::_narrow(obj1.in());
+	First::IHello_ptr ref = First::IHello::_narrow(obj1.in());
 
-	std::cout << "2 + 3 = " << ref->add(2, 3);
+	std::cout << "2 + 3 = " << ref->AddValue(2, 3);
 
 	orb->destroy();
 

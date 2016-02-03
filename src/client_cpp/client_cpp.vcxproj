@@ -156,11 +156,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\server_cpp\server.hh" />
+    <ClCompile Include="..\server_cpp\IHelloWorldSK.cc" />
+    <ClCompile Include="client_cpp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\server_cpp\serverSK.cc" />
-    <ClCompile Include="client_cpp.cpp" />
+    <ClInclude Include="..\server_cpp\IHelloWorld.hh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
