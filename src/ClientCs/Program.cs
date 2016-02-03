@@ -13,12 +13,12 @@ namespace Org.Uneta.Iiopnet.Examples.First
             try
             {
                 // Адрес CORBA-сервера.
-                const string serverHost = "localhost";
-                const int serverPort = 1234;
+                //const string serverHost = "localhost";
+                //const int serverPort = 1234;
 
                 // Регистрируем канал IIOP.
                 IiopClientChannel channel = new IiopClientChannel();
-                ChannelServices.RegisterChannel(channel);
+                ChannelServices.RegisterChannel(channel, false);
 
                 // Адрес CORBA-сервера.
                 string addressString = "iiop://localhost:1234/hello";
