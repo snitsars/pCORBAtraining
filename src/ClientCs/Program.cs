@@ -27,7 +27,7 @@ namespace Org.Uneta.Iiopnet.Examples.First
 
                 // tests
 
-                if ("5" != hello.AddVAlue(2, 3)) return -1;
+                if (5 != hello.AddValue(2, 3)) return -1;
 
                 if ("Hello by CORBA, Andy." != hello.SayHello("Andy")) return -1;
             } 

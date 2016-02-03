@@ -3,9 +3,11 @@ using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Threading;
 using Ch.Elca.Iiop;
+using Ch.Elca.Iiop.Idl;
 
 namespace Org.Uneta.Iiopnet.Examples.First
 {
+    [SupportedInterface(typeof(IHello))]
     public class HelloImplementation : MarshalByRefObject, IHello
     {
         public override object InitializeLifetimeService()
@@ -13,17 +15,16 @@ namespace Org.Uneta.Iiopnet.Examples.First
             // Жизнь не кончается.
             return null;
         }
-
-        public string AddVAlue(int a, int b)
+        
+        public int AddValue(int a, int b)
         {
-            return Convert.ToString(a + b);
+            return a + b;
         }
 
         public string SayHello(string name)
         {
             return "Hello by CORBA, " + name + ".";
         }
-
     }
 
     public class FirstServer
