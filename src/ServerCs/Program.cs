@@ -23,28 +23,28 @@ namespace Org.Uneta.Iiopnet.Examples.First
         {
             return "Hello by CORBA, " + name + ".";
         }
+
     }
 
     public class FirstServer
     {
         [STAThread]
-        public static int Main(string[] args)
+        public static void Main(string[] args)
         {
             // Регистрируем серверный канал IIOP.
-            var serverPort = 1234;
-            var channel = new IiopChannel(serverPort);
+            int serverPort = 1234;
+            IiopChannel channel = new IiopChannel(serverPort);
 #pragma warning disable CS0618 // Type or member is obsolete
             ChannelServices.RegisterChannel(channel);
 #pragma warning restore CS0618 // Type or member is obsolete
 
             // Создаем реализацию интерфейса IHello и публикуем её.
-            var helloImplementation = new HelloImplementation();
-            var objectURI = "hello";
+            HelloImplementation helloImplementation = new HelloImplementation();
+            string objectURI = "hello";
             RemotingServices.Marshal(helloImplementation, objectURI);
 
             Console.WriteLine("Server ready to use.");
             Thread.Sleep(Timeout.Infinite);
-            return 0;
         }
     }
 }
