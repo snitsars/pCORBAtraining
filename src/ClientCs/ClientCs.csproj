@@ -36,7 +36,11 @@
   <ItemGroup>
     <Reference Include="First, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\IDL\SharpInterfaceLib\First.dll</HintPath>
+      <HintPath>..\..\build\Debug_AnyCPU\First.dll</HintPath>
+    </Reference>
+    <Reference Include="IIOPChannel, Version=1.9.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\thirdparty\Sharp\IIOPLib\IIOPChannel\bin\Debug\IIOPChannel.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,12 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\thirdparty\Sharp\IIOPLib\IIOPChannel\IIOPChannel.csproj">
-      <Project>{06b8bcff-7887-4dce-b451-0dca831d4a2d}</Project>
-      <Name>IIOPChannel</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

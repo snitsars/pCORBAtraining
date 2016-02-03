@@ -36,7 +36,11 @@
   <ItemGroup>
     <Reference Include="First, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\IDL\SharpInterfaceLib\First.dll</HintPath>
+      <HintPath>..\..\build\Debug_AnyCPU\First.dll</HintPath>
+    </Reference>
+    <Reference Include="IIOPChannel, Version=1.9.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\thirdparty\Sharp\IIOPLib\IIOPChannel\bin\Debug\IIOPChannel.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -57,13 +61,10 @@
   <ItemGroup>
     <Content Include="IDL\IHelloWorld.idl" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\thirdparty\Sharp\IIOPLib\IIOPChannel\IIOPChannel.csproj">
-      <Project>{06b8bcff-7887-4dce-b451-0dca831d4a2d}</Project>
-      <Name>IIOPChannel</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>$(SolutionDir)\thirdparty\Sharp\IIOPLib\IDLToCLSCompiler\IDLCompiler\bin\Debug\IDLToCLSCompiler.exe  -o $(OutDir) First $(SolutionDir)\IDL\IHelloWorld.idl</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
