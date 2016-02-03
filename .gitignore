@@ -278,5 +278,3 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-*TemporaryGeneratedFile*.cs
-*.pdb
