@@ -58,9 +58,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="IDL\IHelloWorld.idl" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>"$(SolutionDir)thirdparty\Sharp\IIOPLib\IDLToCLSCompiler\IDLCompiler\binSD\IDL TO CLS Compiler CS.exe"  -o $(OutDir) First $(SolutionDir)IDL\IHelloWorld.idl</PreBuildEvent>
