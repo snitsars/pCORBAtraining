@@ -1,12 +1,12 @@
 #pragma once
-#include "server.hh"
+#include "IHelloWorld.hh"
 
-class CServerImpl : public POA_test::IServer,
-	public PortableServer::RefCountServantBase
+class CServerImpl : public POA_First::IHello
 {
 public:
 	CServerImpl();
 	virtual ~CServerImpl();
 
-	virtual CORBA::Long add(CORBA::Long arg1, CORBA::Long arg2);
+	virtual CORBA::Long AddValue(CORBA::Long arg1, CORBA::Long arg2);
+	virtual CORBA::WChar* SayHello(const CORBA::WChar* name);
 };

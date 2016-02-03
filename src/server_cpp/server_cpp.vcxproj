@@ -167,25 +167,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="server.hh" />
+    <ClInclude Include="IHelloWorld.hh" />
     <ClInclude Include="ServerImpl.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="IHelloWorldSK.cc" />
     <ClCompile Include="server.cpp" />
     <ClCompile Include="ServerImpl.cpp" />
-    <ClCompile Include="serverSK.cc">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\idl\server.idl">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">omniidl -bcxx %(FullPath)</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">omniidl -bcxx %(FullPath)</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">omniidl -bcxx %(FullPath)</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">omniidl -bcxx %(FullPath)</Command>
+    <CustomBuild Include="..\..\idl\IHelloWorld.idl">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)thirdparty\omniORB-4.2.1\bin\x86_win32\omniidl -bcxx %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)thirdparty\omniORB-4.2.1\bin\x86_win32\omniidl -bcxx %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)thirdparty\omniORB-4.2.1\bin\x86_win32\omniidl -bcxx %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)thirdparty\omniORB-4.2.1\bin\x86_win32\omniidl -bcxx %(FullPath)</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).hh;%(Filename)SK.cc</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).hh;%(Filename)SK.cc</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).hh;%(Filename)SK.cc</Outputs>
