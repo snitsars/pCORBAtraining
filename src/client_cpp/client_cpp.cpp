@@ -1,5 +1,5 @@
 #include "..\server_cpp\IHelloWorld.hh"
-#include <iostream>
+#include <string>
 
 class ORBHolder
 {
@@ -43,8 +43,8 @@ int main(int argc, char** argv)
 	if (5 != hello->AddValue(2, 3))
 		return -1;
 
-	/*if (L"Hello by CORBA, Andy." != hello->SayHello(L"Andy"))
-		return -1;*/
+	if (std::wstring(L"Hello by CORBA, Andy.") != (wchar_t*)CORBA::WString_var(hello->SayHello(L"Andy")))
+		return -1;
 
     return 0;
 }
