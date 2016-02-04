@@ -59,21 +59,35 @@ namespace ProcessRuner
         
         public static void Main()
         {
-            Console.WriteLine("ServerCs <-> ClientCs:");
+            Console.WriteLine("ClientCs -> ServerCs");
             ProcessLauncher server = new ProcessLauncher("ServerCs.exe");
             Thread.Sleep(1000);
             ProcessLauncher client = new ProcessLauncher("ClientCs.exe");
             client.wait(3000);
             server.kill();
             
-            Console.WriteLine("server_cpp <-> client_cpp");
+            Console.WriteLine("client_cpp -> server_cpp");
             ProcessLauncher server1 = new ProcessLauncher("..\\Debug_Win32\\server_cpp.exe");
             Thread.Sleep(1000);
             ProcessLauncher client1 = new ProcessLauncher("..\\Debug_Win32\\client_cpp.exe");
             client1.wait(3000);
             server1.kill();
 
-            Console.ReadLine();
+            Console.WriteLine("client_cpp -> ServerCs");
+            ProcessLauncher server2 = new ProcessLauncher("ServerCs.exe");
+            Thread.Sleep(1000);
+            ProcessLauncher client2 = new ProcessLauncher("..\\Debug_Win32\\client_cpp.exe");
+            client2.wait(3000);
+            server2.kill();
+
+            Console.WriteLine("ClientCs -> server_cpp");
+            ProcessLauncher server3 = new ProcessLauncher("..\\Debug_Win32\\server_cpp.exe");
+            Thread.Sleep(1000);
+            ProcessLauncher client3 = new ProcessLauncher("ClientCs.exe");
+            client3.wait(3000);
+            server3.kill();
+
+            Console.Write("Press enter"); Console.ReadLine();
         }
     }
 }
