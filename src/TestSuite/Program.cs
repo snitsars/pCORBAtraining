@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.ComponentModel;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace ProcessRuner
 {
@@ -14,17 +14,16 @@ namespace ProcessRuner
         {
             ProcessStartInfo startInfo = new ProcessStartInfo(app);
             startInfo.WindowStyle = ProcessWindowStyle.Normal;
-            startInfo.CreateNoWindow = true;
-            startInfo.UseShellExecute = true;// false;
+            startInfo.CreateNoWindow = false;
+            startInfo.UseShellExecute = false;
+            startInfo.EnvironmentVariables["PATH"] += ";..\\..\\thirdparty\\omniORB-4.2.1\\bin\\x86_win32\\";
 
             myProcess = Process.Start(startInfo);
         }
 
         public void wait(int timeout)
         {
-            myProcess.WaitForExit(timeout);
-
-            if (myProcess.ExitCode != 0)
+            if (!myProcess.WaitForExit(timeout))
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("FAILED");
@@ -32,9 +31,18 @@ namespace ProcessRuner
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("OK");
-                Console.ResetColor();
+                if (myProcess.ExitCode != 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("FAILED");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("OK");
+                    Console.ResetColor();
+                }
             }
         }
 
@@ -52,9 +60,17 @@ namespace ProcessRuner
         {
             Console.Write("ServerCs <-> ClientCs: ");
             ProcessLauncher server = new ProcessLauncher("ServerCs.exe");
+            Thread.Sleep(1000);
             ProcessLauncher client = new ProcessLauncher("ClientCs.exe");
             client.wait(3000);
             server.kill();
+            
+            Console.Write("server_cpp <-> client_cpp: ");
+            ProcessLauncher server1 = new ProcessLauncher("..\\Debug_Win32\\server_cpp.exe");
+            Thread.Sleep(1000);
+            ProcessLauncher client1 = new ProcessLauncher("..\\Debug_Win32\\client_cpp.exe");
+            client1.wait(3000);
+            server1.kill();
 
             Console.ReadLine();
         }
