@@ -3,6 +3,9 @@ using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting;
 using Ch.Elca.Iiop;
 
+using omg.org.CosNaming;
+using Ch.Elca.Iiop.Services;
+
 namespace Org.Uneta.Iiopnet.Examples.First
 {
     class FirstClient
@@ -12,18 +15,20 @@ namespace Org.Uneta.Iiopnet.Examples.First
         {
             try
             {
-                // Адрес CORBA-сервера.
-                //const string serverHost = "localhost";
-                //const int serverPort = 1234;
+                string host = args[0];
+                int port = Int32.Parse(args[1]);
 
                 // Регистрируем канал IIOP.
                 IiopClientChannel channel = new IiopClientChannel();
                 ChannelServices.RegisterChannel(channel, false);
 
-                // Адрес CORBA-сервера.
-                string addressString = "iiop://localhost:1234/hello";
+                CorbaInit init = CorbaInit.GetInit();
+                NamingContext nameService = init.GetNameService(host, port);
+
+                NameComponent[] name = new NameComponent[] { new NameComponent("testService") };
+
                 // Получаем ссылку на клиентский прокси.
-                IHello hello = (IHello)RemotingServices.Connect(typeof(IHello), addressString);
+                IHello hello = (IHello)nameService.resolve(name);
 
                 // tests
 

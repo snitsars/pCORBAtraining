@@ -12,7 +12,7 @@ namespace ProcessRuner
 
         public ProcessLauncher(string app)
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo(app);
+            ProcessStartInfo startInfo = new ProcessStartInfo(app, "localhost 1234");
             startInfo.WindowStyle = ProcessWindowStyle.Normal;
             startInfo.CreateNoWindow = false;
             startInfo.UseShellExecute = false;
@@ -72,7 +72,7 @@ namespace ProcessRuner
             ProcessLauncher client1 = new ProcessLauncher("..\\Debug_Win32\\client_cpp.exe");
             client1.wait(3000);
             server1.kill();
-
+            
             Console.WriteLine("client_cpp -> ServerCs");
             ProcessLauncher server2 = new ProcessLauncher("ServerCs.exe");
             Thread.Sleep(1000);
