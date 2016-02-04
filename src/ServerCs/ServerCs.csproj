@@ -59,7 +59,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="IHelloWorld.idl">
+    <Content Include="$(SolutionDir)\IDL\IHelloWorld.idl">
       <Generator>"%24%28SolutionDir%29thirdparty\Sharp\IIOPLib\IDLToCLSCompiler\IDLCompiler\binSD\IDL TO CLS Compiler CS.exe"  -o %24%28OutDir%29 First %24%28SolutionDir%29IDL\IHelloWorld.idl</Generator>
     </Content>
   </ItemGroup>
