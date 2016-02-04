@@ -280,3 +280,5 @@ $RECYCLE.BIN/
 
 *.dll
 *.opendb
+
+!/thirdparty/

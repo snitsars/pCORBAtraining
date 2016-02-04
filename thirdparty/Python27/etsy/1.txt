@@ -1,0 +1,22 @@
+{
+	'x-ratelimit-remaining': '9946', 
+	'via': '1.1 varnish', 
+	'x-cache': 'MISS', 
+	'content-encoding': 'gzip', 
+	'set-cookie': 'uaid=uaid%3D2B3CvGUQCcE69Im6dFUScCbZ1Oa_%26_now%3D1435652762%26_slt%3DutGnDuBq%26_kid%3D1%26_ver%3D1%26_mac%3DVd4OH0H-zIhhl-AR02IqoKqlxWg2FwicjpFL82yb9W0.; expires=Sat, 30-Jul-2016 00:44:22 GMT; Max-Age=34186700; path=/; domain=.etsy.com; httponly', 
+	'accept-ranges': 'bytes', 
+	'x-timer': 'S1435652762.813500,VS0,VE171', 
+	'vary': 'Accept-Encoding', 
+	'x-etsy-request-uuid': 'poQXCYz4bnVR5pys-RdEg1RuGZ9R', 
+	'content-length': '12066', 
+	'server': 'Apache', 
+	'x-cnection': 'close', 
+	'connection': 'keep-alive', 
+	'x-ratelimit-limit': '10000', 
+	'x-cache-hits': '0', 
+	'x-served-by': 'cache-fra1246-FRA', 
+	'cache-control': 'private', 
+	'date': 'Tue, 30 Jun 2015 08:26:02 GMT', 
+	'content-type': 'application/json', 
+	'age': '0'
+}

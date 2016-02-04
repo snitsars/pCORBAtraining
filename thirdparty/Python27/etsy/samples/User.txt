@@ -1,0 +1,28 @@
+{
+	u'count': 1, 
+	u'type': u'User', 
+	u'pagination': {
+		u'effective_limit': 25, 
+		u'effective_page': 1, 
+		u'next_page': None, 
+		u'effective_offset': 0, 
+		u'next_offset': None
+	}, 
+	u'params': {
+		u'keywords': u'didopanas', 
+		u'limit': u'25', 
+		u'page': None, 
+		u'offset': u'0'
+	}, 
+	u'results': [{
+		u'feedback_info': {
+			u'count': 0, 
+			u'score': None
+		}, 
+		u'user_id': 53060569, 
+		u'creation_tsz': 1410131203, 
+		u'referred_by_user_id': None, 
+		u'user_pub_key': None, 
+		u'login_name': u'vasyanovichpetr'
+	}]
+}
