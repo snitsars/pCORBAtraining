@@ -177,10 +177,14 @@
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\idl\IHelloWorld.idl">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)thirdparty\omniORB-4.2.1\bin\x86_win32\omniidl -bcxx %(FullPath)</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)thirdparty\omniORB-4.2.1\bin\x86_win32\omniidl -bcxx %(FullPath)</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)thirdparty\omniORB-4.2.1\bin\x86_win32\omniidl -bcxx %(FullPath)</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)thirdparty\omniORB-4.2.1\bin\x86_win32\omniidl -bcxx %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SET PYTHONPATH=$(SolutionDir)thirdparty\Python27\Lib
+$(SolutionDir)thirdparty\omniORB-4.2.1\bin\x86_win32\omniidl -bcxx %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">SET PYTHONPATH=$(SolutionDir)thirdparty\Python27\Lib
+$(SolutionDir)thirdparty\omniORB-4.2.1\bin\x86_win32\omniidl -bcxx %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">SET PYTHONPATH=$(SolutionDir)thirdparty\Python27\Lib
+$(SolutionDir)thirdparty\omniORB-4.2.1\bin\x86_win32\omniidl -bcxx %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">SET PYTHONPATH=$(SolutionDir)thirdparty\Python27\Lib
+$(SolutionDir)thirdparty\omniORB-4.2.1\bin\x86_win32\omniidl -bcxx %(FullPath)</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).hh;%(Filename)SK.cc</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).hh;%(Filename)SK.cc</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).hh;%(Filename)SK.cc</Outputs>

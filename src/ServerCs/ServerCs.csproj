@@ -58,9 +58,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="IHelloWorld.idl">
+      <Generator>"%24%28SolutionDir%29thirdparty\Sharp\IIOPLib\IDLToCLSCompiler\IDLCompiler\binSD\IDL TO CLS Compiler CS.exe"  -o %24%28OutDir%29 First %24%28SolutionDir%29IDL\IHelloWorld.idl</Generator>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>"$(SolutionDir)thirdparty\Sharp\IIOPLib\IDLToCLSCompiler\IDLCompiler\binSD\IDL TO CLS Compiler CS.exe"  -o $(OutDir) First $(SolutionDir)IDL\IHelloWorld.idl</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
