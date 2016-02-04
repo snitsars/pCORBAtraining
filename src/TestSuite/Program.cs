@@ -17,6 +17,7 @@ namespace ProcessRuner
             startInfo.CreateNoWindow = false;
             startInfo.UseShellExecute = false;
             startInfo.EnvironmentVariables["PATH"] += ";..\\..\\thirdparty\\omniORB-4.2.1\\bin\\x86_win32\\";
+            startInfo.EnvironmentVariables["OMNIORB_CONFIG"] = "..\\..\\config\\omniORB.cfg";
 
             myProcess = Process.Start(startInfo);
         }
@@ -58,14 +59,14 @@ namespace ProcessRuner
         
         public static void Main()
         {
-            Console.Write("ServerCs <-> ClientCs: ");
+            Console.WriteLine("ServerCs <-> ClientCs:");
             ProcessLauncher server = new ProcessLauncher("ServerCs.exe");
             Thread.Sleep(1000);
             ProcessLauncher client = new ProcessLauncher("ClientCs.exe");
             client.wait(3000);
             server.kill();
             
-            Console.Write("server_cpp <-> client_cpp: ");
+            Console.WriteLine("server_cpp <-> client_cpp");
             ProcessLauncher server1 = new ProcessLauncher("..\\Debug_Win32\\server_cpp.exe");
             Thread.Sleep(1000);
             ProcessLauncher client1 = new ProcessLauncher("..\\Debug_Win32\\client_cpp.exe");
