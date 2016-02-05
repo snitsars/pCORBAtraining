@@ -277,8 +277,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-
-*.dll
 *.opendb
 
 !/thirdparty/
+*.pyc
