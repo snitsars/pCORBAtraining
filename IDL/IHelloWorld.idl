@@ -7,10 +7,14 @@ module First
 {
 	interface IHello
 	{
-		long AddValue(in long a, in long b);
+		long AddValue(in long a, in long b);		
 		wstring SayHello(in wstring name);
+<<<<<<< a878f2a0289b5b8229459456279bf0049e02d95a
 		void SayHello2(in string name, out string greeting);
 		boolean Message(inout string message);
+=======
+		long long GetServerDateTime(out wstring serverTime);
+>>>>>>> Temporary change:
 	};
 };
 

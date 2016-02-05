@@ -3,6 +3,7 @@
 
 class CServerImpl : public POA_First::IHello
 {
+
 public:
 	CServerImpl();
 	virtual ~CServerImpl();
@@ -11,4 +12,6 @@ public:
 	virtual CORBA::WChar* SayHello(const CORBA::WChar* name);
 	virtual void SayHello2(const char* name, CORBA::String_out greeting);
 	virtual CORBA::Boolean Message(char*& message);
+	virtual CORBA::LongLong GetServerDateTime(CORBA::WString_out serverTime);
+
 };

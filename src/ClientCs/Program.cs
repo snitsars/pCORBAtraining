@@ -59,7 +59,15 @@ namespace Org.Uneta.Iiopnet.Examples.First
                 bool responseResult = hello.Message(ref message);
                 check(responseResult && ("Hello, Andy." == message));
 
+                string strServerTime = "";
+                long serverTime = hello.GetServerDateTime(out strServerTime);
+
+                DateTime dtServerTime = DateTime.FromFileTime(serverTime);
+
+                check(strServerTime != dtServerTime.ToString());
+                
                 return result;
+
             } 
             catch (Exception e)
             {

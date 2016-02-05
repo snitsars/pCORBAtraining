@@ -128,6 +128,7 @@ _CORBA_MODULE_BEG
     ::CORBA::WChar* SayHello(const ::CORBA::WChar* name);
     void SayHello2(const char* name, ::CORBA::String_out greeting);
     ::CORBA::Boolean Message(::CORBA::String_INOUT_arg message);
+    ::CORBA::LongLong GetServerDateTime(::CORBA::WString_out serverTime);
 
     // Constructors
     inline _objref_IHello()  { _PR_setobj(0); }  // nil
@@ -166,6 +167,7 @@ _CORBA_MODULE_BEG
     virtual ::CORBA::WChar* SayHello(const ::CORBA::WChar* name) = 0;
     virtual void SayHello2(const char* name, ::CORBA::String_out greeting) = 0;
     virtual ::CORBA::Boolean Message(char*& message) = 0;
+    virtual ::CORBA::LongLong GetServerDateTime(::CORBA::WString_out serverTime) = 0;
     
   public:  // Really protected, workaround for xlC
     virtual _CORBA_Boolean _dispatch(omniCallHandle&);

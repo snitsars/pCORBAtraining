@@ -16,7 +16,7 @@ namespace Org.Uneta.Iiopnet.Examples.First
         {
             return null;
         }
-        
+
         public int AddValue(int a, int b)
         {
             return a + b;
@@ -42,6 +42,15 @@ namespace Org.Uneta.Iiopnet.Examples.First
                 return true;
             }
             return false;
+        }
+
+        public long GetServerDateTime(out string serverTime)
+        {
+            string strDateTime = "05/02/2016 15:00:00.00";
+            DateTime dtServerTime = Convert.ToDateTime(strDateTime);
+
+            serverTime = dtServerTime.ToString();
+            return dtServerTime.ToFileTime();
         }
     }
 
