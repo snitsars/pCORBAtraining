@@ -283,17 +283,10 @@ _0RL_lcfn_7000e62c77f89b95_30000000(omniCallDescriptor* cd, omniServant* svnt)
 
 
 //
-<<<<<<< a878f2a0289b5b8229459456279bf0049e02d95a
 // Code for First::IHello::SayHello2
 
 // Proxy call descriptor class. Mangled signature:
 //  void_i_cstring_o_cstring
-=======
-// Code for First::IHello::GetServerDateTime
-
-// Proxy call descriptor class. Mangled signature:
-//  _clonglong_o_cwstring
->>>>>>> Temporary change:
 class _0RL_cd_7000e62c77f89b95_40000000
   : public omniCallDescriptor
 {
@@ -304,20 +297,15 @@ public:
     
   }
   
-<<<<<<< a878f2a0289b5b8229459456279bf0049e02d95a
   void marshalArguments(cdrStream&);
   void unmarshalArguments(cdrStream&);
 
-=======
-  
->>>>>>> Temporary change:
   void unmarshalReturnedValues(cdrStream&);
   void marshalReturnedValues(cdrStream&);
   
   
   static const char* const _user_exns[];
 
-<<<<<<< a878f2a0289b5b8229459456279bf0049e02d95a
   ::CORBA::String_var arg_0_;
   const char* arg_0;
   ::CORBA::String_var arg_1;
@@ -339,27 +327,12 @@ void _0RL_cd_7000e62c77f89b95_40000000::unmarshalArguments(cdrStream& _n)
 void _0RL_cd_7000e62c77f89b95_40000000::marshalReturnedValues(cdrStream& _n)
 {
   _n.marshalString(arg_1,0);
-=======
-  ::CORBA::WString_var arg_0;
-  ::CORBA::LongLong result;
-};
-
-void _0RL_cd_7000e62c77f89b95_40000000::marshalReturnedValues(cdrStream& _n)
-{
-  result >>= _n;
-  _n.marshalWString(arg_0,0);
->>>>>>> Temporary change:
 
 }
 
 void _0RL_cd_7000e62c77f89b95_40000000::unmarshalReturnedValues(cdrStream& _n)
 {
-<<<<<<< a878f2a0289b5b8229459456279bf0049e02d95a
   arg_1 = _n.unmarshalString(0);
-=======
-  (::CORBA::LongLong&)result <<= _n;
-  arg_0 = _n.unmarshalWString(0);
->>>>>>> Temporary change:
 
 }
 
@@ -373,7 +346,6 @@ _0RL_lcfn_7000e62c77f89b95_50000000(omniCallDescriptor* cd, omniServant* svnt)
 {
   _0RL_cd_7000e62c77f89b95_40000000* tcd = (_0RL_cd_7000e62c77f89b95_40000000*)cd;
   First::_impl_IHello* impl = (First::_impl_IHello*) svnt->_ptrToInterface(First::IHello::_PD_repoId);
-<<<<<<< a878f2a0289b5b8229459456279bf0049e02d95a
   impl->SayHello2(tcd->arg_0, tcd->arg_1.out());
 
 
@@ -470,7 +442,62 @@ _0RL_lcfn_7000e62c77f89b95_70000000(omniCallDescriptor* cd, omniServant* svnt)
   _call_desc.arg_0 = &(char*&) message;
 
   _invoke(_call_desc);
-=======
+  return _call_desc.result;
+
+
+}
+
+
+//
+// Code for First::IHello::GetServerDateTime
+
+// Proxy call descriptor class. Mangled signature:
+//  _clonglong_o_cwstring
+class _0RL_cd_7000e62c77f89b95_80000000
+  : public omniCallDescriptor
+{
+public:
+  inline _0RL_cd_7000e62c77f89b95_80000000(LocalCallFn lcfn, const char* op_, size_t oplen, _CORBA_Boolean upcall=0)
+    : omniCallDescriptor(lcfn, op_, oplen, 0, _user_exns, 0, upcall)
+  {
+    
+  }
+  
+  
+  void unmarshalReturnedValues(cdrStream&);
+  void marshalReturnedValues(cdrStream&);
+  
+  
+  static const char* const _user_exns[];
+
+  ::CORBA::WString_var arg_0;
+  ::CORBA::LongLong result;
+};
+
+void _0RL_cd_7000e62c77f89b95_80000000::marshalReturnedValues(cdrStream& _n)
+{
+  result >>= _n;
+  _n.marshalWString(arg_0,0);
+
+}
+
+void _0RL_cd_7000e62c77f89b95_80000000::unmarshalReturnedValues(cdrStream& _n)
+{
+  (::CORBA::LongLong&)result <<= _n;
+  arg_0 = _n.unmarshalWString(0);
+
+}
+
+const char* const _0RL_cd_7000e62c77f89b95_80000000::_user_exns[] = {
+  0
+};
+
+// Local call call-back function.
+static void
+_0RL_lcfn_7000e62c77f89b95_90000000(omniCallDescriptor* cd, omniServant* svnt)
+{
+  _0RL_cd_7000e62c77f89b95_80000000* tcd = (_0RL_cd_7000e62c77f89b95_80000000*)cd;
+  First::_impl_IHello* impl = (First::_impl_IHello*) svnt->_ptrToInterface(First::IHello::_PD_repoId);
   tcd->result = impl->GetServerDateTime(tcd->arg_0.out());
 
 
@@ -478,12 +505,11 @@ _0RL_lcfn_7000e62c77f89b95_70000000(omniCallDescriptor* cd, omniServant* svnt)
 
 ::CORBA::LongLong First::_objref_IHello::GetServerDateTime(::CORBA::WString_out serverTime)
 {
-  _0RL_cd_7000e62c77f89b95_40000000 _call_desc(_0RL_lcfn_7000e62c77f89b95_50000000, "GetServerDateTime", 18);
+  _0RL_cd_7000e62c77f89b95_80000000 _call_desc(_0RL_lcfn_7000e62c77f89b95_90000000, "GetServerDateTime", 18);
 
 
   _invoke(_call_desc);
   serverTime = _call_desc.arg_0._retn();
->>>>>>> Temporary change:
   return _call_desc.result;
 
 
@@ -534,7 +560,6 @@ First::_impl_IHello::_dispatch(omniCallHandle& _handle)
     return 1;
   }
 
-<<<<<<< a878f2a0289b5b8229459456279bf0049e02d95a
   if (omni::strMatch(op, "SayHello2")) {
 
     _0RL_cd_7000e62c77f89b95_40000000 _call_desc(_0RL_lcfn_7000e62c77f89b95_50000000, "SayHello2", 10, 1);
@@ -546,11 +571,14 @@ First::_impl_IHello::_dispatch(omniCallHandle& _handle)
   if (omni::strMatch(op, "Message")) {
 
     _0RL_cd_7000e62c77f89b95_60000000 _call_desc(_0RL_lcfn_7000e62c77f89b95_70000000, "Message", 8, 1);
-=======
+    
+    _handle.upcall(this,_call_desc);
+    return 1;
+  }
+
   if (omni::strMatch(op, "GetServerDateTime")) {
 
-    _0RL_cd_7000e62c77f89b95_40000000 _call_desc(_0RL_lcfn_7000e62c77f89b95_50000000, "GetServerDateTime", 18, 1);
->>>>>>> Temporary change:
+    _0RL_cd_7000e62c77f89b95_80000000 _call_desc(_0RL_lcfn_7000e62c77f89b95_90000000, "GetServerDateTime", 18, 1);
     
     _handle.upcall(this,_call_desc);
     return 1;
