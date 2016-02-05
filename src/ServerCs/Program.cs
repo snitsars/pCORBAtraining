@@ -24,9 +24,26 @@ namespace Org.Uneta.Iiopnet.Examples.First
             return a + b;
         }
 
-        public string SayHello(string name)
+        [return: StringValue][return: WideChar(true)]
+        public string SayHello([StringValue][WideChar(true)] string name)
         {
-            return "Hello by CORBA, " + name + ".";
+            return "Hello, " + name + ". It's Bob.";
+        }
+
+
+        public void SayHello2([StringValue][WideChar(false)] string name, [StringValue][WideChar(false)] out string greeting)
+        {
+            greeting = "Hello, " + name + ". It's Bob.";
+        }
+
+        public bool Message([StringValue][WideChar(false)] ref string message)
+        {
+            if (message == "Hello, Bob")
+            {
+                message = "Hello, Andy.";
+                return true;
+            }
+            return false;
         }
     }
 

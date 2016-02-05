@@ -126,6 +126,8 @@ _CORBA_MODULE_BEG
     // IDL operations
     ::CORBA::Long AddValue(::CORBA::Long a, ::CORBA::Long b);
     ::CORBA::WChar* SayHello(const ::CORBA::WChar* name);
+    void SayHello2(const char* name, ::CORBA::String_out greeting);
+    ::CORBA::Boolean Message(::CORBA::String_INOUT_arg message);
 
     // Constructors
     inline _objref_IHello()  { _PR_setobj(0); }  // nil
@@ -162,6 +164,8 @@ _CORBA_MODULE_BEG
 
     virtual ::CORBA::Long AddValue(::CORBA::Long a, ::CORBA::Long b) = 0;
     virtual ::CORBA::WChar* SayHello(const ::CORBA::WChar* name) = 0;
+    virtual void SayHello2(const char* name, ::CORBA::String_out greeting) = 0;
+    virtual ::CORBA::Boolean Message(char*& message) = 0;
     
   public:  // Really protected, workaround for xlC
     virtual _CORBA_Boolean _dispatch(omniCallHandle&);

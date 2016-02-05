@@ -1,5 +1,6 @@
 #include "..\server_cpp\IHelloWorld.hh"
 #include <string>
+#include <iostream>
 
 class ORBHolder
 {
@@ -35,17 +36,42 @@ public:
 	}
 };
 
+int result;
+
+void check(bool status)
+{
+	if (!status)
+	{
+		std::cout << "FALSE\n";
+		result = -1;
+	}
+	else
+		std::cout << "OK\n";
+}
+
 int main(int argc, char** argv)
 {
 	ORBHolder holder(argc, argv);
 	First::IHello_ptr hello = holder.getHello();
 
-	if (5 != hello->AddValue(2, 3))
-		return -1;
+	result = 0;
 
-	//if (std::wstring(L"Hello by CORBA, Andy.") != (wchar_t*)CORBA::WString_var(hello->SayHello(L"Andy")))
-	//	return -1;
+	std::cout << "  AddValue: ";
+	check(5 == hello->AddValue(2, 3));
 
-    return 0;
+	std::cout << "  SayHello: ";
+	check(std::wstring(L"Hello, Andy. It's Bob.") == (wchar_t*)CORBA::WString_var(hello->SayHello(L"Andy")));
+
+	std::cout << "  SayHello2: ";
+	CORBA::String_var greeting;
+	hello->SayHello2("Andy", greeting.out());
+	check(std::string("Hello, Andy. It's Bob.") == (char*)greeting);
+	
+	std::cout << "  Message: ";
+	CORBA::String_var message = "Hello, Bob";
+	hello->Message(message.inout());
+	check(std::string("Hello, Andy. It's Bob.") == (char*)greeting);
+
+	return result;
 }
 

@@ -10,6 +10,19 @@ namespace Org.Uneta.Iiopnet.Examples.First
 {
     class FirstClient
     {
+        private static int result = 0;
+
+        private static void check(bool status)
+        {
+            if (!status)
+            {
+                Console.WriteLine("FAILED");
+                result = -1;
+            }
+            else
+                Console.WriteLine("OK");
+        }
+
         [STAThread]
         public static int Main(string[] args)
         {
@@ -32,14 +45,27 @@ namespace Org.Uneta.Iiopnet.Examples.First
 
                 // tests
 
-                if (5 != hello.AddValue(2, 3)) return -1;
+                Console.Write("  AddValue: ");
+                check(5 == hello.AddValue(2, 3));
 
-                if ("Hello by CORBA, Andy." != hello.SayHello("Andy")) return -1;
+                Console.Write("  SayHello: ");
+                check("Hello, Andy. It's Bob." == hello.SayHello("Andy"));
+
+                Console.Write("  SayHello2: ");
+                string greeting;
+                hello.SayHello2("Andy", out greeting);
+                check("Hello, Andy. It's Bob." == greeting);
+
+                Console.Write("  Message: ");
+                string message = "Hello, Bob";
+                bool responseResult = hello.Message(ref message);
+                check(responseResult && ("Hello, Andy." == message));
+
+                return result;
             } 
             catch (Exception e)
             {
                 Console.WriteLine("Exception was raised: " + e);
-                return -1;
             }
             return 0;
         }

@@ -281,6 +281,172 @@ _0RL_lcfn_7000e62c77f89b95_30000000(omniCallDescriptor* cd, omniServant* svnt)
 
 }
 
+
+//
+// Code for First::IHello::SayHello2
+
+// Proxy call descriptor class. Mangled signature:
+//  void_i_cstring_o_cstring
+class _0RL_cd_7000e62c77f89b95_40000000
+  : public omniCallDescriptor
+{
+public:
+  inline _0RL_cd_7000e62c77f89b95_40000000(LocalCallFn lcfn, const char* op_, size_t oplen, _CORBA_Boolean upcall=0)
+    : omniCallDescriptor(lcfn, op_, oplen, 0, _user_exns, 0, upcall)
+  {
+    
+  }
+  
+  void marshalArguments(cdrStream&);
+  void unmarshalArguments(cdrStream&);
+
+  void unmarshalReturnedValues(cdrStream&);
+  void marshalReturnedValues(cdrStream&);
+  
+  
+  static const char* const _user_exns[];
+
+  ::CORBA::String_var arg_0_;
+  const char* arg_0;
+  ::CORBA::String_var arg_1;
+};
+
+void _0RL_cd_7000e62c77f89b95_40000000::marshalArguments(cdrStream& _n)
+{
+  _n.marshalString(arg_0,0);
+
+}
+
+void _0RL_cd_7000e62c77f89b95_40000000::unmarshalArguments(cdrStream& _n)
+{
+  arg_0_ = _n.unmarshalString(0);
+  arg_0 = arg_0_.in();
+
+}
+
+void _0RL_cd_7000e62c77f89b95_40000000::marshalReturnedValues(cdrStream& _n)
+{
+  _n.marshalString(arg_1,0);
+
+}
+
+void _0RL_cd_7000e62c77f89b95_40000000::unmarshalReturnedValues(cdrStream& _n)
+{
+  arg_1 = _n.unmarshalString(0);
+
+}
+
+const char* const _0RL_cd_7000e62c77f89b95_40000000::_user_exns[] = {
+  0
+};
+
+// Local call call-back function.
+static void
+_0RL_lcfn_7000e62c77f89b95_50000000(omniCallDescriptor* cd, omniServant* svnt)
+{
+  _0RL_cd_7000e62c77f89b95_40000000* tcd = (_0RL_cd_7000e62c77f89b95_40000000*)cd;
+  First::_impl_IHello* impl = (First::_impl_IHello*) svnt->_ptrToInterface(First::IHello::_PD_repoId);
+  impl->SayHello2(tcd->arg_0, tcd->arg_1.out());
+
+
+}
+
+void First::_objref_IHello::SayHello2(const char* name, ::CORBA::String_out greeting)
+{
+  _0RL_cd_7000e62c77f89b95_40000000 _call_desc(_0RL_lcfn_7000e62c77f89b95_50000000, "SayHello2", 10);
+  _call_desc.arg_0 = name;
+
+  _invoke(_call_desc);
+  greeting = _call_desc.arg_1._retn();
+
+
+}
+
+
+//
+// Code for First::IHello::Message
+
+// Proxy call descriptor class. Mangled signature:
+//  _cboolean_n_cstring
+class _0RL_cd_7000e62c77f89b95_60000000
+  : public omniCallDescriptor
+{
+public:
+  inline _0RL_cd_7000e62c77f89b95_60000000(LocalCallFn lcfn, const char* op_, size_t oplen, _CORBA_Boolean upcall=0)
+    : omniCallDescriptor(lcfn, op_, oplen, 0, _user_exns, 0, upcall)
+  {
+    
+  }
+  
+  void marshalArguments(cdrStream&);
+  void unmarshalArguments(cdrStream&);
+
+  void unmarshalReturnedValues(cdrStream&);
+  void marshalReturnedValues(cdrStream&);
+  
+  
+  static const char* const _user_exns[];
+
+  ::CORBA::String_var arg_0_;
+  char** arg_0;
+  ::CORBA::Boolean result;
+};
+
+void _0RL_cd_7000e62c77f89b95_60000000::marshalArguments(cdrStream& _n)
+{
+  _n.marshalString(*arg_0,0);
+
+}
+
+void _0RL_cd_7000e62c77f89b95_60000000::unmarshalArguments(cdrStream& _n)
+{
+  arg_0_ = _n.unmarshalString(0);
+  arg_0 = &arg_0_.inout();
+
+}
+
+void _0RL_cd_7000e62c77f89b95_60000000::marshalReturnedValues(cdrStream& _n)
+{
+  _n.marshalBoolean(result);
+  _n.marshalString(*arg_0,0);
+
+}
+
+void _0RL_cd_7000e62c77f89b95_60000000::unmarshalReturnedValues(cdrStream& _n)
+{
+  result = _n.unmarshalBoolean();
+  arg_0_ = *arg_0;
+  *arg_0 = (char*) _CORBA_String_helper::empty_string;
+  *arg_0 = _n.unmarshalString(0);
+
+}
+
+const char* const _0RL_cd_7000e62c77f89b95_60000000::_user_exns[] = {
+  0
+};
+
+// Local call call-back function.
+static void
+_0RL_lcfn_7000e62c77f89b95_70000000(omniCallDescriptor* cd, omniServant* svnt)
+{
+  _0RL_cd_7000e62c77f89b95_60000000* tcd = (_0RL_cd_7000e62c77f89b95_60000000*)cd;
+  First::_impl_IHello* impl = (First::_impl_IHello*) svnt->_ptrToInterface(First::IHello::_PD_repoId);
+  tcd->result = impl->Message(*tcd->arg_0);
+
+
+}
+
+::CORBA::Boolean First::_objref_IHello::Message(::CORBA::String_INOUT_arg message)
+{
+  _0RL_cd_7000e62c77f89b95_60000000 _call_desc(_0RL_lcfn_7000e62c77f89b95_70000000, "Message", 8);
+  _call_desc.arg_0 = &(char*&) message;
+
+  _invoke(_call_desc);
+  return _call_desc.result;
+
+
+}
+
 First::_pof_IHello::~_pof_IHello() {}
 
 
@@ -321,6 +487,22 @@ First::_impl_IHello::_dispatch(omniCallHandle& _handle)
   if (omni::strMatch(op, "SayHello")) {
 
     _0RL_cd_7000e62c77f89b95_20000000 _call_desc(_0RL_lcfn_7000e62c77f89b95_30000000, "SayHello", 9, 1);
+    
+    _handle.upcall(this,_call_desc);
+    return 1;
+  }
+
+  if (omni::strMatch(op, "SayHello2")) {
+
+    _0RL_cd_7000e62c77f89b95_40000000 _call_desc(_0RL_lcfn_7000e62c77f89b95_50000000, "SayHello2", 10, 1);
+    
+    _handle.upcall(this,_call_desc);
+    return 1;
+  }
+
+  if (omni::strMatch(op, "Message")) {
+
+    _0RL_cd_7000e62c77f89b95_60000000 _call_desc(_0RL_lcfn_7000e62c77f89b95_70000000, "Message", 8, 1);
     
     _handle.upcall(this,_call_desc);
     return 1;
