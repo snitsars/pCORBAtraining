@@ -38,9 +38,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\build\Debug_AnyCPU\First.dll</HintPath>
     </Reference>
-    <Reference Include="IIOPChannel, Version=1.9.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\thirdparty\Sharp\IIOPLib\IIOPChannel\binSD\IIOPChannel.dll</HintPath>
+    <Reference Include="IIOPChannel">
+      <HintPath>..\..\thirdparty\IIOPNet-1.9.3\IIOPChannel\binSD\IIOPChannel.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -63,7 +62,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>"$(SolutionDir)thirdparty\Sharp\IIOPLib\IDLToCLSCompiler\IDLCompiler\binSD\IDL TO CLS Compiler CS.exe"  -o $(OutputPath) First $(SolutionDir)IDL\IHelloWorld.idl</PreBuildEvent>
+    <PreBuildEvent>"$(SolutionDir)thirdparty\IIOPNet-1.9.3\IDLToCLSCompiler\IDLCompiler\binSD\IDL TO CLS Compiler CS.exe"  -o $(OutputPath) First $(SolutionDir)IDL\IHelloWorld.idl</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

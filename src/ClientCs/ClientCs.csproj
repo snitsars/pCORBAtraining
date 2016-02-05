@@ -38,9 +38,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\build\Debug_AnyCPU\First.dll</HintPath>
     </Reference>
-    <Reference Include="IIOPChannel, Version=1.9.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\thirdparty\Sharp\IIOPLib\IIOPChannel\binSD\IIOPChannel.dll</HintPath>
+    <Reference Include="IIOPChannel">
+      <HintPath>..\..\thirdparty\IIOPNet-1.9.3\IIOPChannel\binSD\IIOPChannel.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
