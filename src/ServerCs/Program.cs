@@ -4,9 +4,8 @@ using System.Runtime.Remoting.Channels;
 using System.Threading;
 using Ch.Elca.Iiop;
 using Ch.Elca.Iiop.Idl;
-
-using omg.org.CosNaming;
 using Ch.Elca.Iiop.Services;
+using omg.org.CosNaming;
 
 namespace Org.Uneta.Iiopnet.Examples.First
 {
@@ -15,7 +14,6 @@ namespace Org.Uneta.Iiopnet.Examples.First
     {
         public override object InitializeLifetimeService()
         {
-            // Жизнь не кончается.
             return null;
         }
         
@@ -55,17 +53,11 @@ namespace Org.Uneta.Iiopnet.Examples.First
             string host = args[0];
             int port = Int32.Parse(args[1]);
 
-            // Регистрируем серверный канал IIOP.
-            int serverPort = 1235;
-            IiopChannel channel = new IiopChannel(serverPort);
-#pragma warning disable CS0618 // Type or member is obsolete
-            ChannelServices.RegisterChannel(channel);
-#pragma warning restore CS0618 // Type or member is obsolete
+            IiopChannel channel = new IiopChannel(1111);
+            ChannelServices.RegisterChannel(channel, false);
 
-            // Создаем реализацию интерфейса IHello и публикуем её.
             HelloImplementation helloImplementation = new HelloImplementation();
-            string objectURI = "testService";
-            RemotingServices.Marshal(helloImplementation, objectURI);
+            RemotingServices.Marshal(helloImplementation, "testService");
 
             CorbaInit init = CorbaInit.GetInit();
             NamingContext nameService = init.GetNameService(host, port);

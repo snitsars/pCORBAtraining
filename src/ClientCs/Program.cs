@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Runtime.Remoting.Channels;
-using System.Runtime.Remoting;
 using Ch.Elca.Iiop;
-
-using omg.org.CosNaming;
 using Ch.Elca.Iiop.Services;
+using omg.org.CosNaming;
 
 namespace Org.Uneta.Iiopnet.Examples.First
 {
