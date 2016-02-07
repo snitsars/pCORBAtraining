@@ -1,6 +1,7 @@
 #include "..\server_cpp\IHelloWorld.hh"
 #include <string>
 #include <iostream>
+#include <ctime>
 
 class ORBHolder
 {
@@ -49,6 +50,17 @@ void check(bool status)
 		std::cout << "OK\n";
 }
 
+inline wchar_t* charToWChar(const char* text)
+{
+	size_t newsize = strlen(text) + 1;
+	wchar_t * wcstring = new wchar_t[newsize];
+
+	// Convert char* string to a wchar_t* string.
+	size_t convertedChars = 0;
+	mbstowcs_s(&convertedChars, wcstring, newsize, text, _TRUNCATE);
+	return wcstring;
+}
+
 int main(int argc, char** argv)
 {
 	ORBHolder holder(argc, argv);
@@ -71,6 +83,18 @@ int main(int argc, char** argv)
 	CORBA::String_var message = "Hello, Bob";
 	hello->Message(message.inout());
 	check(std::string("Hello, Andy. It's Bob.") == (char*)greeting);
+
+	std::cout << "  Get server time: ";
+	CORBA::WString_var server_time_string_var = L"";
+	
+	long long server_time_raw = hello->GetServerDateTime(server_time_string_var);
+	time_t server_time_t = (time_t)server_time_raw;
+	char buf[100];
+	ctime_s(buf, 100, &server_time_t);	
+	std::cout << "server_time_str = " << buf;
+	std::wstring buff_copy = charToWChar(buf);
+	std::wstring buff_copy2 = static_cast<std::wstring>(server_time_string_var);
+	check(buff_copy.compare(static_cast<std::wstring>(server_time_string_var)));
 
 	return result;
 }

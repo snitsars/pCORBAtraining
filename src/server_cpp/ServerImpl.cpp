@@ -38,14 +38,12 @@ CORBA::Boolean CServerImpl::Message(char*& message)
 
 	return true;
 }
+
 CORBA::LongLong CServerImpl::GetServerDateTime(CORBA::WString_out serverTime)
 {
 	char buf[100];
-	tm server_time_tm ={0,0,15,5,1,2016,0,1,1};
-	time_t server_time_raw = mktime(&server_time_tm);
-	ctime_s(buf, 100, &server_time_raw);	
-	serverTime = (const CORBA::WChar*)buf;
-	
-
-	return static_cast<long int>(server_time_raw);
+	time_t raw_server_time = time(NULL);
+	ctime_s(buf, 100, &raw_server_time);
+	serverTime = charToWChar(buf);
+	return static_cast<long long>(raw_server_time);
 }
