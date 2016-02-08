@@ -177,7 +177,8 @@
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\idl\IHelloWorld.idl">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SET PYTHONPATH=$(SolutionDir)thirdparty\Python27\Lib
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SET PATH=%path%;$(SolutionDir)thirdparty\Python27\
+SET PYTHONPATH=$(SolutionDir)thirdparty\Python27\Lib
 $(SolutionDir)thirdparty\omniORB-4.2.1\bin\x86_win32\omniidl -bcxx %(FullPath)</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">SET PYTHONPATH=$(SolutionDir)thirdparty\Python27\Lib
 $(SolutionDir)thirdparty\omniORB-4.2.1\bin\x86_win32\omniidl -bcxx %(FullPath)</Command>
