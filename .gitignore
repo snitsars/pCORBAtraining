@@ -281,3 +281,5 @@ $RECYCLE.BIN/
 
 !/thirdparty/
 *.pyc
+src/server_cpp/IHelloWorld.hh
+src/server_cpp/IHelloWorldSK.cc
