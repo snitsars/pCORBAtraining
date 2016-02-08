@@ -14,6 +14,22 @@ static const char* _0RL_library_version = omniORB_4_2;
 
 
 
+void
+First::MyComplexNumber::operator>>= (cdrStream &_n) const
+{
+  re >>= _n;
+  im >>= _n;
+
+}
+
+void
+First::MyComplexNumber::operator<<= (cdrStream &_n)
+{
+  (::CORBA::Long&)re <<= _n;
+  (::CORBA::Long&)im <<= _n;
+
+}
+
 First::IHello_ptr First::IHello_Helper::_nil() {
   return ::First::IHello::_nil();
 }
@@ -449,15 +465,104 @@ _0RL_lcfn_7000e62c77f89b95_70000000(omniCallDescriptor* cd, omniServant* svnt)
 
 
 //
-// Code for First::IHello::GetServerDateTime
+// Code for First::IHello::MulComplex
 
 // Proxy call descriptor class. Mangled signature:
-//  _clonglong_o_cwstring
+//  _cFirst_mMyComplexNumber_i_cFirst_mMyComplexNumber_n_cFirst_mMyComplexNumber
 class _0RL_cd_7000e62c77f89b95_80000000
   : public omniCallDescriptor
 {
 public:
   inline _0RL_cd_7000e62c77f89b95_80000000(LocalCallFn lcfn, const char* op_, size_t oplen, _CORBA_Boolean upcall=0)
+    : omniCallDescriptor(lcfn, op_, oplen, 0, _user_exns, 0, upcall)
+  {
+    
+  }
+  
+  void marshalArguments(cdrStream&);
+  void unmarshalArguments(cdrStream&);
+
+  void unmarshalReturnedValues(cdrStream&);
+  void marshalReturnedValues(cdrStream&);
+  
+  
+  static const char* const _user_exns[];
+
+  First::MyComplexNumber arg_0_;
+  const First::MyComplexNumber* arg_0;
+  First::MyComplexNumber arg_1_;
+  First::MyComplexNumber* arg_1;
+  First::MyComplexNumber result;
+};
+
+void _0RL_cd_7000e62c77f89b95_80000000::marshalArguments(cdrStream& _n)
+{
+  (const First::MyComplexNumber&) *arg_0 >>= _n;
+  (const First::MyComplexNumber&) *arg_1 >>= _n;
+
+}
+
+void _0RL_cd_7000e62c77f89b95_80000000::unmarshalArguments(cdrStream& _n)
+{
+  (First::MyComplexNumber&)arg_0_ <<= _n;
+  arg_0 = &arg_0_;
+  (First::MyComplexNumber&)arg_1_ <<= _n;
+  arg_1 = &arg_1_;
+
+}
+
+void _0RL_cd_7000e62c77f89b95_80000000::marshalReturnedValues(cdrStream& _n)
+{
+  (const First::MyComplexNumber&) result >>= _n;
+  (const First::MyComplexNumber&) *arg_1 >>= _n;
+
+}
+
+void _0RL_cd_7000e62c77f89b95_80000000::unmarshalReturnedValues(cdrStream& _n)
+{
+  (First::MyComplexNumber&)result <<= _n;
+  (First::MyComplexNumber&)*arg_1 <<= _n;
+
+}
+
+const char* const _0RL_cd_7000e62c77f89b95_80000000::_user_exns[] = {
+  0
+};
+
+// Local call call-back function.
+static void
+_0RL_lcfn_7000e62c77f89b95_90000000(omniCallDescriptor* cd, omniServant* svnt)
+{
+  _0RL_cd_7000e62c77f89b95_80000000* tcd = (_0RL_cd_7000e62c77f89b95_80000000*)cd;
+  First::_impl_IHello* impl = (First::_impl_IHello*) svnt->_ptrToInterface(First::IHello::_PD_repoId);
+  tcd->result = impl->MulComplex(*tcd->arg_0, *tcd->arg_1);
+
+
+}
+
+First::MyComplexNumber First::_objref_IHello::MulComplex(const ::First::MyComplexNumber& x, ::First::MyComplexNumber& y)
+{
+  _0RL_cd_7000e62c77f89b95_80000000 _call_desc(_0RL_lcfn_7000e62c77f89b95_90000000, "MulComplex", 11);
+  _call_desc.arg_0 = &(::First::MyComplexNumber&) x;
+  _call_desc.arg_1 = &(::First::MyComplexNumber&) y;
+
+  _invoke(_call_desc);
+  return _call_desc.result;
+
+
+}
+
+
+//
+// Code for First::IHello::GetServerDateTime
+
+// Proxy call descriptor class. Mangled signature:
+//  _clonglong_o_cwstring
+class _0RL_cd_7000e62c77f89b95_a0000000
+  : public omniCallDescriptor
+{
+public:
+  inline _0RL_cd_7000e62c77f89b95_a0000000(LocalCallFn lcfn, const char* op_, size_t oplen, _CORBA_Boolean upcall=0)
     : omniCallDescriptor(lcfn, op_, oplen, 0, _user_exns, 0, upcall)
   {
     
@@ -474,29 +579,29 @@ public:
   ::CORBA::LongLong result;
 };
 
-void _0RL_cd_7000e62c77f89b95_80000000::marshalReturnedValues(cdrStream& _n)
+void _0RL_cd_7000e62c77f89b95_a0000000::marshalReturnedValues(cdrStream& _n)
 {
   result >>= _n;
   _n.marshalWString(arg_0,0);
 
 }
 
-void _0RL_cd_7000e62c77f89b95_80000000::unmarshalReturnedValues(cdrStream& _n)
+void _0RL_cd_7000e62c77f89b95_a0000000::unmarshalReturnedValues(cdrStream& _n)
 {
   (::CORBA::LongLong&)result <<= _n;
   arg_0 = _n.unmarshalWString(0);
 
 }
 
-const char* const _0RL_cd_7000e62c77f89b95_80000000::_user_exns[] = {
+const char* const _0RL_cd_7000e62c77f89b95_a0000000::_user_exns[] = {
   0
 };
 
 // Local call call-back function.
 static void
-_0RL_lcfn_7000e62c77f89b95_90000000(omniCallDescriptor* cd, omniServant* svnt)
+_0RL_lcfn_7000e62c77f89b95_b0000000(omniCallDescriptor* cd, omniServant* svnt)
 {
-  _0RL_cd_7000e62c77f89b95_80000000* tcd = (_0RL_cd_7000e62c77f89b95_80000000*)cd;
+  _0RL_cd_7000e62c77f89b95_a0000000* tcd = (_0RL_cd_7000e62c77f89b95_a0000000*)cd;
   First::_impl_IHello* impl = (First::_impl_IHello*) svnt->_ptrToInterface(First::IHello::_PD_repoId);
   tcd->result = impl->GetServerDateTime(tcd->arg_0.out());
 
@@ -505,7 +610,7 @@ _0RL_lcfn_7000e62c77f89b95_90000000(omniCallDescriptor* cd, omniServant* svnt)
 
 ::CORBA::LongLong First::_objref_IHello::GetServerDateTime(::CORBA::WString_out serverTime)
 {
-  _0RL_cd_7000e62c77f89b95_80000000 _call_desc(_0RL_lcfn_7000e62c77f89b95_90000000, "GetServerDateTime", 18);
+  _0RL_cd_7000e62c77f89b95_a0000000 _call_desc(_0RL_lcfn_7000e62c77f89b95_b0000000, "GetServerDateTime", 18);
 
 
   _invoke(_call_desc);
@@ -576,9 +681,17 @@ First::_impl_IHello::_dispatch(omniCallHandle& _handle)
     return 1;
   }
 
+  if (omni::strMatch(op, "MulComplex")) {
+
+    _0RL_cd_7000e62c77f89b95_80000000 _call_desc(_0RL_lcfn_7000e62c77f89b95_90000000, "MulComplex", 11, 1);
+    
+    _handle.upcall(this,_call_desc);
+    return 1;
+  }
+
   if (omni::strMatch(op, "GetServerDateTime")) {
 
-    _0RL_cd_7000e62c77f89b95_80000000 _call_desc(_0RL_lcfn_7000e62c77f89b95_90000000, "GetServerDateTime", 18, 1);
+    _0RL_cd_7000e62c77f89b95_a0000000 _call_desc(_0RL_lcfn_7000e62c77f89b95_b0000000, "GetServerDateTime", 18, 1);
     
     _handle.upcall(this,_call_desc);
     return 1;

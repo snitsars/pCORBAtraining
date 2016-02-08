@@ -39,6 +39,17 @@ CORBA::Boolean CServerImpl::Message(char*& message)
 	return true;
 }
 
+First::MyComplexNumber CServerImpl::MulComplex(const First::MyComplexNumber& x, First::MyComplexNumber& y)
+{
+	First::MyComplexNumber result;
+	result.re = x.re * y.re - x.im * y.im;
+	result.im = x.re * y.im + x.im - y.re;
+
+	y = result;
+
+	return result;
+}
+
 CORBA::LongLong CServerImpl::GetServerDateTime(CORBA::WString_out serverTime)
 {
 	char buf[100];

@@ -56,6 +56,24 @@ _CORBA_MODULE First
 
 _CORBA_MODULE_BEG
 
+  struct MyComplexNumber {
+    typedef _CORBA_ConstrType_Fix_Var<MyComplexNumber> _var_type;
+
+    
+    ::CORBA::Long re;
+
+    ::CORBA::Long im;
+
+  
+
+    void operator>>= (cdrStream &) const;
+    void operator<<= (cdrStream &);
+  };
+
+  typedef MyComplexNumber::_var_type MyComplexNumber_var;
+
+  typedef MyComplexNumber& MyComplexNumber_out;
+
 #ifndef __First_mIHello__
 #define __First_mIHello__
   class IHello;
@@ -128,6 +146,7 @@ _CORBA_MODULE_BEG
     ::CORBA::WChar* SayHello(const ::CORBA::WChar* name);
     void SayHello2(const char* name, ::CORBA::String_out greeting);
     ::CORBA::Boolean Message(::CORBA::String_INOUT_arg message);
+    MyComplexNumber MulComplex(const ::First::MyComplexNumber& x, ::First::MyComplexNumber& y);
     ::CORBA::LongLong GetServerDateTime(::CORBA::WString_out serverTime);
 
     // Constructors
@@ -167,6 +186,7 @@ _CORBA_MODULE_BEG
     virtual ::CORBA::WChar* SayHello(const ::CORBA::WChar* name) = 0;
     virtual void SayHello2(const char* name, ::CORBA::String_out greeting) = 0;
     virtual ::CORBA::Boolean Message(char*& message) = 0;
+    virtual MyComplexNumber MulComplex(const ::First::MyComplexNumber& x, ::First::MyComplexNumber& y) = 0;
     virtual ::CORBA::LongLong GetServerDateTime(::CORBA::WString_out serverTime) = 0;
     
   public:  // Really protected, workaround for xlC

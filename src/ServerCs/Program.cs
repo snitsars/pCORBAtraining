@@ -44,6 +44,14 @@ namespace Org.Uneta.Iiopnet.Examples.First
             return false;
         }
 
+        public MyComplexNumber MulComplex(MyComplexNumber x, ref MyComplexNumber y)
+        {
+            MyComplexNumber result = new MyComplexNumber(x.re * y.re - x.im * y.im, x.re * y.im + x.im - y.re);
+            y = result;
+            return result;
+        }
+
+
         public long GetServerDateTime(out string serverTime)
         {
             string strDateTime = "05/02/2016 15:00:00.00";

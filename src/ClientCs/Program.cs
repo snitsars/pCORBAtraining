@@ -49,15 +49,27 @@ namespace Org.Uneta.Iiopnet.Examples.First
                 Console.Write("  SayHello: ");
                 check("Hello, Andy. It's Bob." == hello.SayHello("Andy"));
 
-                Console.Write("  SayHello2: ");
-                string greeting;
-                hello.SayHello2("Andy", out greeting);
-                check("Hello, Andy. It's Bob." == greeting);
+                {
+                    Console.Write("  SayHello2: ");
+                    string greeting;
+                    hello.SayHello2("Andy", out greeting);
+                    check("Hello, Andy. It's Bob." == greeting);
+                }
+                {
+                    Console.Write("  Message: ");
+                    string message = "Hello, Bob";
+                    bool result = hello.Message(ref message);
+                    check(result && ("Hello, Andy." == message));
+                }
+                {
+                    Console.Write("  MulComplex: ");
+                    MyComplexNumber x = new MyComplexNumber(2, 3);
+                    MyComplexNumber y = new MyComplexNumber(5, 6);
+                    MyComplexNumber expected = new MyComplexNumber(x.re * y.re - x.im * y.im, x.re * y.im + x.im - y.re);
 
-                Console.Write("  Message: ");
-                string message = "Hello, Bob";
-                bool responseResult = hello.Message(ref message);
-                check(responseResult && ("Hello, Andy." == message));
+                    MyComplexNumber result = hello.MulComplex(x, ref y);
+                    check(result.re == expected.re && result.im == expected.im && result.re == y.re && result.im == y.im);
+                }
 
                 /*Console.Write(" Server time: ");
                 string strServerTime = "";
@@ -65,7 +77,7 @@ namespace Org.Uneta.Iiopnet.Examples.First
 
                 DateTime dtServerTime = DateTime.FromFileTime(serverTime);
                 check(strServerTime == dtServerTime.ToString());*/
-                
+
                 return result;
 
             } 

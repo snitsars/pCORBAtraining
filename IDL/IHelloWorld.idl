@@ -5,12 +5,20 @@
 
 module First
 {
+	struct MyComplexNumber
+	{
+		long re;
+		long im;
+	};
+
 	interface IHello
 	{
 		long AddValue(in long a, in long b);		
 		wstring SayHello(in wstring name);
 		void SayHello2(in string name, out string greeting);
 		boolean Message(inout string message);
+		MyComplexNumber MulComplex(in MyComplexNumber x, inout MyComplexNumber y); //for testing purpose inout should just return same data as return value
+
 		long long GetServerDateTime(out wstring serverTime);
 	};
 };

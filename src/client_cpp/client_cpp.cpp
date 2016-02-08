@@ -73,17 +73,31 @@ int main(int argc, char** argv)
 
 	std::cout << "  SayHello: ";
 	check(std::wstring(L"Hello, Andy. It's Bob.") == (wchar_t*)CORBA::WString_var(hello->SayHello(L"Andy")));
+	{
+		std::cout << "  SayHello2: ";
+		CORBA::String_var greeting;
+		hello->SayHello2("Andy", greeting.out());
+		check(std::string("Hello, Andy. It's Bob.") == (char*)greeting);
+	}
+	{
+		std::cout << "  Message: ";
+		CORBA::String_var message = "Hello, Bob";
+		hello->Message(message.inout());
+		check(std::string("Hello, Andy.") == (char*)message);
+	}
+	{
+		std::cout << "  MulComplex: ";
+		First::MyComplexNumber x, y;
+		x.re = 2, x.im = 3;
+		y.re = 5, y.im = 6;
+		First::MyComplexNumber expected;
+		expected.re = x.re * y.re - x.im * y.im;
+		expected.im = x.re * y.im + x.im - y.re;
 
-	std::cout << "  SayHello2: ";
-	CORBA::String_var greeting;
-	hello->SayHello2("Andy", greeting.out());
-	check(std::string("Hello, Andy. It's Bob.") == (char*)greeting);
-	
-	std::cout << "  Message: ";
-	CORBA::String_var message = "Hello, Bob";
-	hello->Message(message.inout());
-	check(std::string("Hello, Andy. It's Bob.") == (char*)greeting);
-	
+		First::MyComplexNumber result = hello->MulComplex(x, y);
+		check(result.re == expected.re && result.im == expected.im && result.re == y.re && result.im == y.im);
+	}
+
 	/*
 	std::cout << "  Get server time: ";
 	CORBA::WString_var server_time_string_var = L"";
