@@ -83,10 +83,10 @@ int main(int argc, char** argv)
 	CORBA::String_var message = "Hello, Bob";
 	hello->Message(message.inout());
 	check(std::string("Hello, Andy. It's Bob.") == (char*)greeting);
-
+	
+	/*
 	std::cout << "  Get server time: ";
 	CORBA::WString_var server_time_string_var = L"";
-	
 	long long server_time_raw = hello->GetServerDateTime(server_time_string_var);
 	time_t server_time_t = (time_t)server_time_raw;
 	char buf[100];
@@ -94,7 +94,9 @@ int main(int argc, char** argv)
 	std::cout << "server_time_str = " << buf;
 	std::wstring buff_copy = charToWChar(buf);
 	std::wstring buff_copy2 = static_cast<std::wstring>(server_time_string_var);
+	
 	check(buff_copy.compare(static_cast<std::wstring>(server_time_string_var)));
+	*/
 
 	return result;
 }
