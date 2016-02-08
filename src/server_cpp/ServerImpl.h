@@ -25,8 +25,11 @@ public:
 	virtual CORBA::WChar* SayHello(const CORBA::WChar* name);
 	virtual void SayHello2(const char* name, CORBA::String_out greeting);
 	virtual CORBA::Boolean Message(char*& message);
+	
+	
+	
 	virtual First::MyComplexNumber MulComplex(const First::MyComplexNumber& x, First::MyComplexNumber& y);
 	virtual CORBA::Boolean MulComplexAsAny(const CORBA::Any& x, const CORBA::Any& y, CORBA::Any_OUT_arg result);
-	virtual CORBA::LongLong GetServerDateTime(CORBA::WString_out serverTime);
+	virtual void DataTimeTransfer(CORBA::LongLong& DataTimeValue);
 
 };

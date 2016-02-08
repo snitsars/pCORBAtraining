@@ -51,6 +51,7 @@ namespace Org.Uneta.Iiopnet.Examples.First
             return result;
         }
 
+
         public bool MulComplexAsAny(object x, object y, out object result)
         {
             MyComplexNumber _x = (MyComplexNumber)x;
@@ -63,13 +64,20 @@ namespace Org.Uneta.Iiopnet.Examples.First
         }
 
 
-        public long GetServerDateTime(out string serverTime)
+        public void DataTimeTransfer(ref long DataTimeValue)
         {
-            string strDateTime = "05/02/2016 15:00:00.00";
+            string strDateTime = "08/02/2016 00:00:00.00";
             DateTime dtServerTime = Convert.ToDateTime(strDateTime);
+            DateTime dtFromClient = DateTime.FromFileTimeUtc(DataTimeValue);
+            if (dtServerTime == dtFromClient)
+            {
+                DataTimeValue = dtServerTime.ToFileTimeUtc();
+            }
+            else
+        {
+                DataTimeValue = -1;
+            }
 
-            serverTime = dtServerTime.ToString();
-            return dtServerTime.ToFileTime();
         }
     }
 

@@ -26,7 +26,7 @@ module First
 		MyComplexNumber MulComplex(in MyComplexNumber x, inout MyComplexNumber y); //for testing purpose inout should just return same data as return value
 		boolean MulComplexAsAny(in any x, in any y, out any result);
 
-		long long GetServerDateTime(out wstring serverTime);
+		void DataTimeTransfer(inout long long DataTimeValue);
 	};
 };
 

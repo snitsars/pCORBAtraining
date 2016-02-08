@@ -68,11 +68,57 @@ CORBA::Boolean CServerImpl::MulComplexAsAny(const CORBA::Any& x, const CORBA::An
 	return true;
 }
 
-CORBA::LongLong CServerImpl::GetServerDateTime(CORBA::WString_out serverTime)
+__int64 FileTimeToInt64(const FILETIME& time_value)
 {
-	char buf[100];
-	time_t raw_server_time = time(NULL);
-	ctime_s(buf, 100, &raw_server_time);
-	serverTime = charToWChar(buf);
-	return static_cast<long long>(raw_server_time);
+	__int64 res = (__int64(time_value.dwHighDateTime) << 32) | __int64(time_value.dwLowDateTime);
+
+	return res;
+}
+
+__int64 SysytemTimeToInt64(const SYSTEMTIME& time_value)
+{
+	FILETIME ft;
+
+	BOOL errorFlag = SystemTimeToFileTime(&time_value, &ft);
+	__int64 res = FileTimeToInt64(ft);
+
+	if (errorFlag == 0)
+		res = -1;
+
+	return res;
+}
+
+void Int64ToFileTime(const __int64 * time_value_p, FILETIME *const ft)
+{
+	ULARGE_INTEGER li;
+
+	li.QuadPart = *time_value_p;
+	ft->dwHighDateTime = li.HighPart;
+	ft->dwLowDateTime = li.LowPart;
+}
+
+void CServerImpl::DataTimeTransfer(CORBA::LongLong& DataTimeValue)
+{
+	SYSTEMTIME initial_systemtime = {};
+	initial_systemtime.wMilliseconds = 0;
+	initial_systemtime.wSecond = 0;
+	initial_systemtime.wMinute = 0;
+	initial_systemtime.wHour = 0;
+	initial_systemtime.wDay = 8;
+	initial_systemtime.wDayOfWeek = 1;
+	initial_systemtime.wMonth = 2;
+	initial_systemtime.wYear = 2016;
+	
+	FILETIME initial_filetime;
+	SystemTimeToFileTime(&initial_systemtime, &initial_filetime);
+		
+	FILETIME newFt;
+	Int64ToFileTime(&DataTimeValue, &newFt);
+	
+	if (CompareFileTime(&initial_filetime, &newFt) == 0)
+{
+		DataTimeValue = FileTimeToInt64(newFt);
+	}
+	else DataTimeValue = -1;
+
 }

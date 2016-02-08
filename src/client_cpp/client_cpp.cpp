@@ -2,7 +2,6 @@
 #include <string>
 #include <iostream>
 #include <sstream>
-#include <ctime>
 
 class ORBHolder
 {
@@ -49,6 +48,35 @@ void check(bool status)
 	}
 	else
 		std::cout << "OK\n";
+}
+
+__int64 FileTimeToInt64(const FILETIME& time_value)
+{
+	__int64 res = (__int64(time_value.dwHighDateTime) << 32) | __int64(time_value.dwLowDateTime);
+
+	return res;
+}
+
+__int64 SysytemTimeToInt64(const SYSTEMTIME& time_value)
+{
+	FILETIME ft;
+
+	BOOL errorFlag = SystemTimeToFileTime(&time_value, &ft);
+	__int64 res = FileTimeToInt64(ft);
+
+	if (errorFlag == 0)
+		res = -1;
+
+	return res;
+}
+
+void Int64ToFileTime(const __int64 * time_value_p, FILETIME *const ft)
+{
+	ULARGE_INTEGER li;
+
+	li.QuadPart = *time_value_p;
+	ft->dwHighDateTime = li.HighPart;
+	ft->dwLowDateTime = li.LowPart;
 }
 
 inline wchar_t* charToWChar(const char* text)
@@ -132,34 +160,29 @@ int main(int argc, char** argv)
 		
 		check(success && result && equal(*result, expected));
 	}
-	/*{
-		std::cout << "  MulComplexAsAny: fail on wrong data type";
-		First::MyOtherDataType x, y;
-		x.re = 2, x.im = 3;
-		y.re = 5, y.im = 6;
+	{
+		std::cout << "  DataTimeTransfer: ";
+		SYSTEMTIME initial_systemtime = {};
+		initial_systemtime.wMilliseconds = 0;
+		initial_systemtime.wSecond = 0;
+		initial_systemtime.wMinute = 0;
+		initial_systemtime.wHour = 0;
+		initial_systemtime.wDay = 8;
+		initial_systemtime.wDayOfWeek = 1;
+		initial_systemtime.wMonth = 2;
+		initial_systemtime.wYear = 2016;
 
-		CORBA::Any _x, _y;
-		_x <<= x;
-		_y <<= y;
+		FILETIME initial_filetime;
+		SystemTimeToFileTime(&initial_systemtime, &initial_filetime);
+		__int64 val = SysytemTimeToInt64(initial_systemtime);
 
-		CORBA::Any_var _result;
-		bool success = hello->MulComplexAsAny(_x, _y, _result.out());
-		check(!success);
-	}*/
+		hello->DataTimeTransfer(val);
 
-	/*
-	std::cout << "  Get server time: ";
-	CORBA::WString_var server_time_string_var = L"";
-	long long server_time_raw = hello->GetServerDateTime(server_time_string_var);
-	time_t server_time_t = (time_t)server_time_raw;
-	char buf[100];
-	ctime_s(buf, 100, &server_time_t);	
-	std::cout << "server_time_str = " << buf;
-	std::wstring buff_copy = charToWChar(buf);
-	std::wstring buff_copy2 = static_cast<std::wstring>(server_time_string_var);
+		FILETIME return_filetime;
+		Int64ToFileTime(&val, &return_filetime);
 	
-	check(buff_copy.compare(static_cast<std::wstring>(server_time_string_var)));
-	*/
+		check(CompareFileTime(&initial_filetime, &return_filetime) == 0);
+	}
 
 	return result;
 }
