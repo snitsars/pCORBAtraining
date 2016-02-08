@@ -21,6 +21,11 @@ namespace Org.Uneta.Iiopnet.Examples.First
                 Console.WriteLine("OK");
         }
 
+        private static bool equal(MyComplexNumber x, MyComplexNumber y)
+        {
+            return x.re == y.re && x.im == y.im;
+        }
+
         [STAThread]
         public static int Main(string[] args)
         {
@@ -68,7 +73,20 @@ namespace Org.Uneta.Iiopnet.Examples.First
                     MyComplexNumber expected = new MyComplexNumber(x.re * y.re - x.im * y.im, x.re * y.im + x.im - y.re);
 
                     MyComplexNumber result = hello.MulComplex(x, ref y);
-                    check(result.re == expected.re && result.im == expected.im && result.re == y.re && result.im == y.im);
+                    check(equal(result, expected) && equal(result, expected));
+                }
+                {
+                    Console.Write("  MulComplexAsAny: ");
+                    MyComplexNumber x = new MyComplexNumber(2, 3);
+                    MyComplexNumber y = new MyComplexNumber(5, 6);
+                    MyComplexNumber expected = new MyComplexNumber(x.re * y.re - x.im * y.im, x.re * y.im + x.im - y.re);
+
+                    
+                    object _result;
+                    bool success = hello.MulComplexAsAny(x, y, out _result);
+                    MyComplexNumber result = (MyComplexNumber)_result;
+
+                    check(success && equal(result, expected));
                 }
 
                 /*Console.Write(" Server time: ");

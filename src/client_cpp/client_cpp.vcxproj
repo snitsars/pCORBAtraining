@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\server_cpp\IHelloWorldDynSK.cc" />
     <ClCompile Include="..\server_cpp\IHelloWorldSK.cc" />
     <ClCompile Include="client_cpp.cpp" />
   </ItemGroup>

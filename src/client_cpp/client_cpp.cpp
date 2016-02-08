@@ -1,6 +1,7 @@
 #include "..\server_cpp\IHelloWorld.hh"
 #include <string>
 #include <iostream>
+#include <sstream>
 #include <ctime>
 
 class ORBHolder
@@ -61,6 +62,18 @@ inline wchar_t* charToWChar(const char* text)
 	return wcstring;
 }
 
+bool equal(const First::MyComplexNumber& x, const First::MyComplexNumber& y)
+{
+	return x.re == y.re && x.im == y.im;
+}
+
+std::string dump(First::MyComplexNumber number)
+{
+	std::stringstream ss;
+	ss << "(" << number.re << ", " << number.im << ")";
+	return ss.str();
+}
+
 int main(int argc, char** argv)
 {
 	ORBHolder holder(argc, argv);
@@ -95,8 +108,44 @@ int main(int argc, char** argv)
 		expected.im = x.re * y.im + x.im - y.re;
 
 		First::MyComplexNumber result = hello->MulComplex(x, y);
-		check(result.re == expected.re && result.im == expected.im && result.re == y.re && result.im == y.im);
+		check(equal(result, expected) && equal(result, y));
 	}
+
+	{
+		std::cout << "  MulComplexAsAny: ";
+		First::MyComplexNumber x, y;
+		x.re = 2, x.im = 3;
+		y.re = 5, y.im = 6;
+		First::MyComplexNumber expected;
+		expected.re = x.re * y.re - x.im * y.im;
+		expected.im = x.re * y.im + x.im - y.re;
+
+		CORBA::Any _x, _y;
+		_x <<= x;
+		_y <<= y;
+
+		CORBA::Any_var _result;
+		bool success = hello->MulComplexAsAny(_x, _y, _result.out());
+
+		First::MyComplexNumber* result;
+		_result >>= result;
+		
+		check(success && result && equal(*result, expected));
+	}
+	/*{
+		std::cout << "  MulComplexAsAny: fail on wrong data type";
+		First::MyOtherDataType x, y;
+		x.re = 2, x.im = 3;
+		y.re = 5, y.im = 6;
+
+		CORBA::Any _x, _y;
+		_x <<= x;
+		_y <<= y;
+
+		CORBA::Any_var _result;
+		bool success = hello->MulComplexAsAny(_x, _y, _result.out());
+		check(!success);
+	}*/
 
 	/*
 	std::cout << "  Get server time: ";

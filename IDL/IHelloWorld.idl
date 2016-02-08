@@ -11,6 +11,12 @@ module First
 		long im;
 	};
 
+	struct MyOtherDataType
+	{
+		long re;
+		long im;
+	};
+
 	interface IHello
 	{
 		long AddValue(in long a, in long b);		
@@ -18,6 +24,7 @@ module First
 		void SayHello2(in string name, out string greeting);
 		boolean Message(inout string message);
 		MyComplexNumber MulComplex(in MyComplexNumber x, inout MyComplexNumber y); //for testing purpose inout should just return same data as return value
+		boolean MulComplexAsAny(in any x, in any y, out any result);
 
 		long long GetServerDateTime(out wstring serverTime);
 	};

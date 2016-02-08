@@ -50,6 +50,24 @@ First::MyComplexNumber CServerImpl::MulComplex(const First::MyComplexNumber& x, 
 	return result;
 }
 
+CORBA::Boolean CServerImpl::MulComplexAsAny(const CORBA::Any& x, const CORBA::Any& y, CORBA::Any_OUT_arg result)
+{
+	
+	First::MyComplexNumber *_x, *_y;
+	if(!(x >>= _x))
+		return false;
+
+	if(!(y >>= _y))
+		return false;
+
+	First::MyComplexNumber _result = MulComplex(*_x, *_y);
+
+	result = new CORBA::Any;
+	*result <<= _result;
+	
+	return true;
+}
+
 CORBA::LongLong CServerImpl::GetServerDateTime(CORBA::WString_out serverTime)
 {
 	char buf[100];

@@ -51,6 +51,17 @@ namespace Org.Uneta.Iiopnet.Examples.First
             return result;
         }
 
+        public bool MulComplexAsAny(object x, object y, out object result)
+        {
+            MyComplexNumber _x = (MyComplexNumber)x;
+            MyComplexNumber _y = (MyComplexNumber)y;
+
+            MyComplexNumber _result = MulComplex(_x, ref _y);
+
+            result = _result;
+            return true;
+        }
+
 
         public long GetServerDateTime(out string serverTime)
         {

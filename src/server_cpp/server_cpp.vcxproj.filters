@@ -32,6 +32,9 @@
     <ClCompile Include="IHelloWorldSK.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IHelloWorldDynSK.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\idl\IHelloWorld.idl">

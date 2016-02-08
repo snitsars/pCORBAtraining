@@ -21,6 +21,9 @@
     <ClCompile Include="..\server_cpp\IHelloWorldSK.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\server_cpp\IHelloWorldDynSK.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\server_cpp\IHelloWorld.hh">
