@@ -129,23 +129,23 @@ void CServerImpl::ThrowExceptions(CORBA::Long excptionVariant)
 	{
 	case 0:
 	{
-		CORBA::NO_IMPLEMENT(1,CORBA::COMPLETED_NO)._raise();
+		throw CORBA::NO_IMPLEMENT(1,CORBA::COMPLETED_NO);
 		break;
 	}
 
 	case 1:
 	{
-		First::IHello::UserExceptionS()._raise();
+		throw First::IHello::UserExceptionS();
 		break;
 	}
 	case 2:
 	{
-		First::IHello::UserExceptionExt("EXCEPTIONS_WORKS", 254)._raise();
+		throw First::IHello::UserExceptionExt("EXCEPTIONS_WORKS", 254);
 		break;
 	}
 	case 3:
 	{
-		CORBA::TRANSIENT()._raise();
+		throw CORBA::TRANSIENT();
 		break;
 	}
 	default:

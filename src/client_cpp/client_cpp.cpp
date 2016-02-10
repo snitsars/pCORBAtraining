@@ -102,18 +102,28 @@ std::string dump(First::MyComplexNumber number)
 	return ss.str();
 }
 
+#define SYSTEM_EXCEPTION_TYPE 1
+#define TRANSIENT_EXCEPTION_TYPE 2
+
+long expectedExceptionType = 0;
+bool exceptionProperlyHandled = false;
+
 CORBA::Boolean systemExceptionHandler(void* cookie,
 	CORBA::ULong n_retries,
 	const CORBA::SystemException& ex)
 {
-	std::cout << "     systemExceptionHandler " << ex._name() << ": ";
+	if (expectedExceptionType == SYSTEM_EXCEPTION_TYPE)
+		exceptionProperlyHandled = true;
+
 	return false;
 }
 CORBA::Boolean transientExceptionHandler(void* cookie,
 	CORBA::ULong retries,
 	const CORBA::TRANSIENT& ex)
 {
-	std::cout << "     transientExceptionHandler " << ex._name() << ": ";
+	if (expectedExceptionType == TRANSIENT_EXCEPTION_TYPE)
+		exceptionProperlyHandled = true;
+
 	return false;  
 }
 
@@ -199,63 +209,93 @@ int main(int argc, char** argv)
 		check(CompareFileTime(&initial_filetime, &return_filetime) == 0);
 	}
 	{
-		std::cout << "  ThrowExceptions: \n";
-			
-		omniORB::installTransientExceptionHandler(hello, 0, transientExceptionHandler);
-		omniORB::installSystemExceptionHandler(hello, 0, systemExceptionHandler);
 		try
 		{
+			std::cout << "  Install exceptions hadlers: ";
+			omniORB::installTransientExceptionHandler(hello, 0, transientExceptionHandler);
+			omniORB::installSystemExceptionHandler(hello, 0, systemExceptionHandler);
+			check(true);
+		}
+		catch (...)
+		{
+			check(false);
+		}
+
+		try
+		{
+			std::cout << "  Catch NO_IMPLEMENT: ";
+			expectedExceptionType = SYSTEM_EXCEPTION_TYPE;
+			exceptionProperlyHandled = false;
 			hello->ThrowExceptions(0);	
 		}
 		catch (CORBA::NO_IMPLEMENT& se)
 		{
-			check(1 == se.minor());
+			check(exceptionProperlyHandled && 1 == se.minor());
 		}
+		catch (...)
+		{
+			check(false);
+		}
+		
 		try
 		{
+			std::cout << "  Catch TRANSIENT: ";
+			expectedExceptionType = TRANSIENT_EXCEPTION_TYPE;
+			exceptionProperlyHandled = false;
 			hello->ThrowExceptions(3);
 		}
 		catch (CORBA::TRANSIENT& se)
 		{			
 			std::string ex_neame = se._name();
-			check( ex_neame.compare("TRANSIENT") == 0);
+			check(exceptionProperlyHandled && ex_neame.compare("TRANSIENT") == 0);
 		}
-
+		catch (...)
+		{
+			check(false);
+		}
+		
 		try
 		{
+			std::cout << "  Catch plain user exception: ";
 			hello->ThrowExceptions(1);			
 		}
 		catch (First::IHello::UserExceptionS& ue)
 		{
-			std::string ue_neame = ue._name();
-			std::cout << "     " << ue_neame << ": ";
-			check(ue_neame.compare("UserExceptionS") == 0);			
+			check(std::string("UserExceptionS") == ue._name());
 		}
-
+		catch(...)
+		{
+			check(false);
+		}
+		
 		try
 		{
+			std::cout << "  Catch user exception with members: ";
 			hello->ThrowExceptions(2);
 		}
 		catch (First::IHello::UserExceptionExt& ue)
 		{
-			std::string ue_neame = ue._name();
-			std::string ue_reason = ue.reason;
-			long codeError = ue.codeError;
-			ue_reason = ue_reason.append(std::to_string(codeError));
-			std::cout << "     " << ue_neame << ": ";
-			check(ue_reason.compare("EXCEPTIONS_WORKS254") == 0);
+			check((std::string("EXCEPTIONS_WORKS") == (char*)ue.reason) && (254 == ue.codeError));
 		}
+		catch (...)
+		{
+			check(false);
+		}
+
 		try
 		{
+			std::cout << "  Catch unknown exception: ";
 			hello->ThrowExceptions(4);
 		}
 		catch (CORBA::UNKNOWN& se)
 		{
-			std::string ex_neame = se._name();
-			check(ex_neame.compare("UNKNOWN") == 0);
+			check(std::string("UNKNOWN") == (char*)se._name());
+		}
+		catch (...)
+		{
+			check(false);
 		}
 	}
-
 	return result;
 }
 

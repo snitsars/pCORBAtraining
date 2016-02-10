@@ -91,6 +91,7 @@ namespace Org.Uneta.Iiopnet.Examples.First
                     MyComplexNumber result = hello.MulComplex(x, ref y);
                     check(equal(result, expected) && equal(result, expected));
                 }
+                try
                 {
                     Console.Write("  MulComplexAsAny: ");
                     MyComplexNumber x = new MyComplexNumber(2, 3);
@@ -104,13 +105,18 @@ namespace Org.Uneta.Iiopnet.Examples.First
 
                     check(success && equal(result, expected));
                 }
+                catch(System.Exception e)
+                {
+                    check(false);
+                }
+
                 #endregion
 
                 #region TimeTransfer
                 {
-                    Console.Write(" DataTimeTransfer: ");
-                    string initialValue = "08/02/2016 00:00:00.00";
-                    DateTime dateTime = Convert.ToDateTime(initialValue);
+                    Console.Write("  DataTimeTransfer: ");
+                    
+                    DateTime dateTime = new DateTime(2016, 2, 8);
                     long dataTimeValue = dateTime.ToFileTimeUtc();
 
                     hello.DataTimeTransfer(ref dataTimeValue);
@@ -122,45 +128,62 @@ namespace Org.Uneta.Iiopnet.Examples.First
 
                 #region ThrowExceptions
                 {
-                    Console.WriteLine(" ThrowExceptions: ");
+                    Console.WriteLine("  Install exceptions hadlers: Not relevant in iiop.net");
+
                     try
                     {
+                        Console.Write("  Catch NO_IMPLEMENT: ");
                         hello.ThrowExceptions(0);
                     }
                     catch (NO_IMPLEMENT se)
                     {
-                        Console.Write("   NO_IMPLEMENT: ");
                         check(1 == se.Minor);
+                    }
+                    catch (Exception)
+                    {
+                        check(false);
                     }
 
                     try
                     {
+                        Console.Write("  Catch plain user exception: ");
                         hello.ThrowExceptions(1);
                     }
                     catch (UserExceptionS ue)
                     {
-                        Console.Write("   UserExceptionS: ");
                         check(ue.Message.Contains("UserExceptionS"));
                     }
+                    catch (Exception)
+                    {
+                        check(false);
+                    }
+
                     try
                     {
+                        Console.Write("  Catch user exception with members: ");
                         hello.ThrowExceptions(2);
                     }
                     catch (UserExceptionExt ue)
                     {
-                        Console.Write("   UserExceptionExt: ");
-                        var checkValue = ue.reason;
-                        checkValue = checkValue + ue.codeError;                        
-                        check("EXCEPTIONS_WORKS254" == checkValue);
+                        check(ue.reason == "EXCEPTIONS_WORKS" && ue.codeError == 254);
                     }
+                    catch (Exception)
+                    {
+                        check(false);
+                    }
+
                     try
                     {
+                        Console.Write("  Catch unknown exception: ");
                         hello.ThrowExceptions(4);
                     }
-                    catch (Exception e)
+                    catch (omg.org.CORBA.UNKNOWN e)
                     {
-                        Console.Write("   C# NotImplementedException: ");
                         check(e.Message.Contains("UNKNOWN"));
+                    }
+                    catch(Exception)
+                    {
+                        check(false);
                     }
 
                 }

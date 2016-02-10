@@ -66,18 +66,18 @@ namespace Org.Uneta.Iiopnet.Examples.First
         }
 
 
-        public void DataTimeTransfer(ref long DataTimeValue)
+        public void DataTimeTransfer(ref long dataTimeValue)
         {
             string strDateTime = "08/02/2016 00:00:00.00";
-            DateTime dtServerTime = Convert.ToDateTime(strDateTime);
-            DateTime dtFromClient = DateTime.FromFileTimeUtc(DataTimeValue);
+            DateTime dtServerTime = new DateTime(2016, 2, 8);
+            DateTime dtFromClient = DateTime.FromFileTimeUtc(dataTimeValue);
             if (dtServerTime == dtFromClient)
             {
-                DataTimeValue = dtServerTime.ToFileTimeUtc();
+                dataTimeValue = dtServerTime.ToFileTimeUtc();
             }
             else
-        {
-                DataTimeValue = -1;
+            {
+                dataTimeValue = -1;
             }
 
         }
