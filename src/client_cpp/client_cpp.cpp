@@ -245,7 +245,15 @@ int main(int argc, char** argv)
 			std::cout << "     " << ue_neame << ": ";
 			check(ue_reason.compare("EXCEPTIONS_WORKS254") == 0);
 		}
-		
+		try
+		{
+			hello->ThrowExceptions(4);
+		}
+		catch (CORBA::UNKNOWN& se)
+		{
+			std::string ex_neame = se._name();
+			check(ex_neame.compare("UNKNOWN") == 0);
+		}
 	}
 
 	return result;
