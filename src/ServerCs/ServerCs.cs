@@ -6,6 +6,8 @@ using Ch.Elca.Iiop;
 using Ch.Elca.Iiop.Idl;
 using Ch.Elca.Iiop.Services;
 using omg.org.CosNaming;
+using omg.org.CORBA;
+using Org.Uneta.Iiopnet.Examples.First.IHello_package;
 
 namespace Org.Uneta.Iiopnet.Examples.First
 {
@@ -78,6 +80,38 @@ namespace Org.Uneta.Iiopnet.Examples.First
                 DataTimeValue = -1;
             }
 
+        }
+
+        public void ThrowExceptions(int excptionVariant)
+        {
+            switch (excptionVariant)
+            {
+                case 0:
+                {
+                    throw new NO_IMPLEMENT(1, CompletionStatus.Completed_No);
+                }
+
+                case 1:
+                {
+                    throw new UserExceptionS();
+                }
+                case 2:
+                {
+                    UserExceptionExt userExceptionExt = new UserExceptionExt();
+                    userExceptionExt.reason = "EXCEPTIONS_WORKS";
+                    userExceptionExt.codeError = 254;
+                    throw userExceptionExt;
+                }
+                case 3:
+                    {
+                        throw new TRANSIENT();
+                    }
+                default:
+                {
+                    throw new NotImplementedException();
+                }
+
+            }
         }
     }
 

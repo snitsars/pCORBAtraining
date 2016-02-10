@@ -52,19 +52,19 @@ First::MyComplexNumber CServerImpl::MulComplex(const First::MyComplexNumber& x, 
 
 CORBA::Boolean CServerImpl::MulComplexAsAny(const CORBA::Any& x, const CORBA::Any& y, CORBA::Any_OUT_arg result)
 {
-	
+
 	First::MyComplexNumber *_x, *_y;
-	if(!(x >>= _x))
+	if (!(x >>= _x))
 		return false;
 
-	if(!(y >>= _y))
+	if (!(y >>= _y))
 		return false;
 
 	First::MyComplexNumber _result = MulComplex(*_x, *_y);
 
 	result = new CORBA::Any;
 	*result <<= _result;
-	
+
 	return true;
 }
 
@@ -108,17 +108,49 @@ void CServerImpl::DataTimeTransfer(CORBA::LongLong& DataTimeValue)
 	initial_systemtime.wDayOfWeek = 1;
 	initial_systemtime.wMonth = 2;
 	initial_systemtime.wYear = 2016;
-	
+
 	FILETIME initial_filetime;
 	SystemTimeToFileTime(&initial_systemtime, &initial_filetime);
-		
+
 	FILETIME newFt;
 	Int64ToFileTime(&DataTimeValue, &newFt);
-	
+
 	if (CompareFileTime(&initial_filetime, &newFt) == 0)
-{
+	{
 		DataTimeValue = FileTimeToInt64(newFt);
 	}
 	else DataTimeValue = -1;
 
+}
+
+void CServerImpl::ThrowExceptions(CORBA::Long excptionVariant)
+{
+	switch (excptionVariant)
+	{
+	case 0:
+	{
+		CORBA::NO_IMPLEMENT(1,CORBA::COMPLETED_NO)._raise();
+		break;
+	}
+
+	case 1:
+	{
+		First::IHello::UserExceptionS()._raise();
+		break;
+	}
+	case 2:
+	{
+		First::IHello::UserExceptionExt("EXCEPTIONS_WORKS", 254)._raise();
+		break;
+	}
+	case 3:
+	{
+		CORBA::TRANSIENT()._raise();
+		break;
+	}
+	default:
+	{
+		throw std::exception();
+	}
+	}
 }

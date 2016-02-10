@@ -16,7 +16,6 @@ inline wchar_t* charToWChar(const char* text)
 
 class CServerImpl : public POA_First::IHello
 {
-
 public:
 	CServerImpl();
 	virtual ~CServerImpl();
@@ -26,10 +25,8 @@ public:
 	virtual void SayHello2(const char* name, CORBA::String_out greeting);
 	virtual CORBA::Boolean Message(char*& message);
 	
-	
-	
 	virtual First::MyComplexNumber MulComplex(const First::MyComplexNumber& x, First::MyComplexNumber& y);
 	virtual CORBA::Boolean MulComplexAsAny(const CORBA::Any& x, const CORBA::Any& y, CORBA::Any_OUT_arg result);
 	virtual void DataTimeTransfer(CORBA::LongLong& DataTimeValue);
-
+	virtual void ThrowExceptions(CORBA::Long excptionVariant);
 };

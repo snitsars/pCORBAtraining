@@ -3,6 +3,8 @@ using System.Runtime.Remoting.Channels;
 using Ch.Elca.Iiop;
 using Ch.Elca.Iiop.Services;
 using omg.org.CosNaming;
+using omg.org.CORBA;
+using Org.Uneta.Iiopnet.Examples.First.IHello_package;
 
 namespace Org.Uneta.Iiopnet.Examples.First
 {
@@ -78,13 +80,13 @@ namespace Org.Uneta.Iiopnet.Examples.First
                     check(result && ("Hello, Andy." == message));
                 }
                 #endregion
-                
+
                 #region MulComplex
                 {
                     Console.Write("  MulComplex: ");
                     MyComplexNumber x = new MyComplexNumber(2, 3);
                     MyComplexNumber y = new MyComplexNumber(5, 6);
-                    MyComplexNumber expected = new MyComplexNumber(x.re*y.re - x.im*y.im, x.re*y.im + x.im - y.re);
+                    MyComplexNumber expected = new MyComplexNumber(x.re * y.re - x.im * y.im, x.re * y.im + x.im - y.re);
 
                     MyComplexNumber result = hello.MulComplex(x, ref y);
                     check(equal(result, expected) && equal(result, expected));
@@ -95,7 +97,7 @@ namespace Org.Uneta.Iiopnet.Examples.First
                     MyComplexNumber y = new MyComplexNumber(5, 6);
                     MyComplexNumber expected = new MyComplexNumber(x.re * y.re - x.im * y.im, x.re * y.im + x.im - y.re);
 
-                    
+
                     object _result;
                     bool success = hello.MulComplexAsAny(x, y, out _result);
                     MyComplexNumber result = (MyComplexNumber)_result;
@@ -103,7 +105,7 @@ namespace Org.Uneta.Iiopnet.Examples.First
                     check(success && equal(result, expected));
                 }
                 #endregion
-    
+
                 #region TimeTransfer
                 {
                     Console.Write(" DataTimeTransfer: ");
@@ -115,6 +117,52 @@ namespace Org.Uneta.Iiopnet.Examples.First
 
                     DateTime fromServer = DateTime.FromFileTimeUtc(dataTimeValue);
                     check(dateTime == fromServer);
+                }
+                #endregion
+
+                #region ThrowExceptions
+                {
+                    Console.WriteLine(" ThrowExceptions: ");
+                    try
+                    {
+                        hello.ThrowExceptions(0);
+                    }
+                    catch (NO_IMPLEMENT se)
+                    {
+                        Console.Write("   NO_IMPLEMENT: ");
+                        check(1 == se.Minor);
+                    }
+
+                    try
+                    {
+                        hello.ThrowExceptions(1);
+                    }
+                    catch (UserExceptionS ue)
+                    {
+                        Console.Write("   UserExceptionS: ");
+                        check(ue.Message.Contains("UserExceptionS"));
+                    }
+                    try
+                    {
+                        hello.ThrowExceptions(2);
+                    }
+                    catch (UserExceptionExt ue)
+                    {
+                        Console.Write("   UserExceptionExt: ");
+                        var checkValue = ue.reason;
+                        checkValue = checkValue + ue.codeError;                        
+                        check("EXCEPTIONS_WORKS254" == checkValue);
+                    }
+                    try
+                    {
+                        hello.ThrowExceptions(4);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.Write("   C# NotImplementedException: ");
+                        check(e.Message.Contains("UNKNOWN"));
+                    }
+
                 }
                 #endregion
 

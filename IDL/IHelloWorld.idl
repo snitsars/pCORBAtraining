@@ -19,6 +19,9 @@ module First
 
 	interface IHello
 	{
+		exception UserExceptionS{};
+		exception UserExceptionExt{ string reason; long codeError; };
+
 		long AddValue(in long a, in long b);		
 		wstring SayHello(in wstring name);
 		void SayHello2(in string name, out string greeting);
@@ -26,6 +29,7 @@ module First
 		MyComplexNumber MulComplex(in MyComplexNumber x, inout MyComplexNumber y); //for testing purpose inout should just return same data as return value
 		boolean MulComplexAsAny(in any x, in any y, out any result);
 		void DataTimeTransfer(inout long long DataTimeValue);
+		void ThrowExceptions(in long excptionVariant) raises(UserExceptionS, UserExceptionExt);
 	};
 };
 

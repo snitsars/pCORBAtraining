@@ -283,3 +283,4 @@ $RECYCLE.BIN/
 *.pyc
 src/server_cpp/IHelloWorld.hh
 src/server_cpp/IHelloWorldSK.cc
+src/server_cpp/IHelloWorldDynSK.cc

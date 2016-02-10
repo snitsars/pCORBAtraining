@@ -79,7 +79,7 @@ void Int64ToFileTime(const __int64 * time_value_p, FILETIME *const ft)
 	ft->dwLowDateTime = li.LowPart;
 }
 
-inline wchar_t* charToWChar(const char* text)
+wchar_t* charToWChar(const char* text)
 {
 	size_t newsize = strlen(text) + 1;
 	wchar_t * wcstring = new wchar_t[newsize];
@@ -100,6 +100,21 @@ std::string dump(First::MyComplexNumber number)
 	std::stringstream ss;
 	ss << "(" << number.re << ", " << number.im << ")";
 	return ss.str();
+}
+
+CORBA::Boolean systemExceptionHandler(void* cookie,
+	CORBA::ULong n_retries,
+	const CORBA::SystemException& ex)
+{
+	std::cout << "     systemExceptionHandler " << ex._name() << ": ";
+	return false;
+}
+CORBA::Boolean transientExceptionHandler(void* cookie,
+	CORBA::ULong retries,
+	const CORBA::TRANSIENT& ex)
+{
+	std::cout << "     transientExceptionHandler " << ex._name() << ": ";
+	return false;  
 }
 
 int main(int argc, char** argv)
@@ -180,8 +195,57 @@ int main(int argc, char** argv)
 
 		FILETIME return_filetime;
 		Int64ToFileTime(&val, &return_filetime);
-	
+
 		check(CompareFileTime(&initial_filetime, &return_filetime) == 0);
+	}
+	{
+		std::cout << "  ThrowExceptions: \n";
+			
+		omniORB::installTransientExceptionHandler(hello, 0, transientExceptionHandler);
+		omniORB::installSystemExceptionHandler(hello, 0, systemExceptionHandler);
+		try
+		{
+			hello->ThrowExceptions(0);	
+		}
+		catch (CORBA::NO_IMPLEMENT& se)
+		{
+			check(1 == se.minor());
+		}
+		try
+		{
+			hello->ThrowExceptions(3);
+		}
+		catch (CORBA::TRANSIENT& se)
+		{			
+			std::string ex_neame = se._name();
+			check( ex_neame.compare("TRANSIENT") == 0);
+		}
+
+		try
+		{
+			hello->ThrowExceptions(1);			
+		}
+		catch (First::IHello::UserExceptionS& ue)
+		{
+			std::string ue_neame = ue._name();
+			std::cout << "     " << ue_neame << ": ";
+			check(ue_neame.compare("UserExceptionS") == 0);			
+		}
+
+		try
+		{
+			hello->ThrowExceptions(2);
+		}
+		catch (First::IHello::UserExceptionExt& ue)
+		{
+			std::string ue_neame = ue._name();
+			std::string ue_reason = ue.reason;
+			long codeError = ue.codeError;
+			ue_reason = ue_reason.append(std::to_string(codeError));
+			std::cout << "     " << ue_neame << ": ";
+			check(ue_reason.compare("EXCEPTIONS_WORKS254") == 0);
+		}
+		
 	}
 
 	return result;
