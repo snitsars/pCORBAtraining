@@ -14,6 +14,8 @@ namespace Org.Uneta.Iiopnet.Examples.First
     [SupportedInterface(typeof(IHello))]
     public class HelloImplementation : MarshalByRefObject, IHello
     {
+        private ITestCallBack _callBack = null;
+
         public override object InitializeLifetimeService()
         {
             return null;
@@ -112,6 +114,17 @@ namespace Org.Uneta.Iiopnet.Examples.First
                 }
 
             }
+        }
+
+        public bool setCallBack(ITestCallBack callBack)
+        {
+            _callBack = callBack;
+            return true;
+        }
+
+        public ITestCallBack callCallBack()
+        {
+            return _callBack;
         }
     }
 

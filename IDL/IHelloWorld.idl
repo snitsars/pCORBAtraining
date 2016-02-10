@@ -17,10 +17,17 @@ module First
 		long im;
 	};
 
+	const long ServerPort = 7454;
+
+	interface ITestCallBack
+	{
+		wstring getDecoratedString(in wstring a_Input);
+	};
+
 	interface IHello
 	{
 		exception UserExceptionS{};
-		exception UserExceptionExt{ string reason; long codeError; };
+		exception UserExceptionExt{ string reason; long codeError; };	
 
 		long AddValue(in long a, in long b);		
 		wstring SayHello(in wstring name);
@@ -30,6 +37,8 @@ module First
 		boolean MulComplexAsAny(in any x, in any y, out any result);
 		void DataTimeTransfer(inout long long DataTimeValue);
 		void ThrowExceptions(in long excptionVariant) raises(UserExceptionS, UserExceptionExt);
+		boolean setCallBack(in ITestCallBack callBack);
+		ITestCallBack callCallBack();
 	};
 };
 

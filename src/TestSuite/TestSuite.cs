@@ -12,7 +12,7 @@ namespace ProcessRuner
 
         public ProcessLauncher(string app)
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo(app, "localhost 1234");
+            ProcessStartInfo startInfo = new ProcessStartInfo(app, "localhost 1234 4321");
             startInfo.WindowStyle = ProcessWindowStyle.Normal;
             startInfo.CreateNoWindow = false;
             startInfo.UseShellExecute = false;

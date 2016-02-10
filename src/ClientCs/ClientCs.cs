@@ -8,16 +8,31 @@ using Org.Uneta.Iiopnet.Examples.First.IHello_package;
 
 namespace Org.Uneta.Iiopnet.Examples.First
 {
+    class TestCallBack : MarshalByRefObject, ITestCallBack
+    {
+        public string getDecoratedString(string input)
+        {
+            try
+            {
+                return input + "  attached with DateTime " + DateTime.Now.ToString();
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+    }
+
     class FirstClient
     {
-        private static int result = 0;
-
+        private static int _result = 0;
+        
         private static void check(bool status)
         {
             if (!status)
             {
                 Console.WriteLine("FAILED");
-                result = -1;
+                _result = -1;
             }
             else
                 Console.WriteLine("OK");
@@ -35,10 +50,12 @@ namespace Org.Uneta.Iiopnet.Examples.First
             {
                 string host = args[0];
                 int port = Int32.Parse(args[1]);
+                int callbackPort = Int32.Parse(args[2]);
 
                 // Регистрируем канал IIOP.
-                IiopClientChannel channel = new IiopClientChannel();
-                ChannelServices.RegisterChannel(channel, false);
+                var chanel = new IiopChannel(callbackPort);
+                //IiopClientChannel channel = new IiopClientChannel();
+                ChannelServices.RegisterChannel(chanel, false);
 
                 CorbaInit init = CorbaInit.GetInit();
                 NamingContext nameService = init.GetNameService(host, port);
@@ -47,6 +64,9 @@ namespace Org.Uneta.Iiopnet.Examples.First
 
                 // Получаем ссылку на клиентский прокси.
                 IHello hello = (IHello)nameService.resolve(name);
+
+                var calback = new TestCallBack();
+                hello.setCallBack(calback);
 
                 // tests
                 #region AddValue
@@ -99,11 +119,11 @@ namespace Org.Uneta.Iiopnet.Examples.First
                     MyComplexNumber expected = new MyComplexNumber(x.re * y.re - x.im * y.im, x.re * y.im + x.im - y.re);
 
 
-                    object _result;
-                    bool success = hello.MulComplexAsAny(x, y, out _result);
-                    MyComplexNumber result = (MyComplexNumber)_result;
+                    object result;
+                    bool success = hello.MulComplexAsAny(x, y, out result);
+                    MyComplexNumber complexNumber = (MyComplexNumber)result;
 
-                    check(success && equal(result, expected));
+                    check(success && equal(complexNumber, expected));
                 }
                 catch(System.Exception e)
                 {
@@ -188,8 +208,14 @@ namespace Org.Uneta.Iiopnet.Examples.First
 
                 }
                 #endregion
+                #region callbackCall
 
-                return FirstClient.result;
+                {
+                    string result = hello.callCallBack().getDecoratedString("Hello world");
+                    Console.WriteLine(" Decorated String: " + result);
+                }
+                #endregion
+                return FirstClient._result;
 
             }
             catch (Exception e)

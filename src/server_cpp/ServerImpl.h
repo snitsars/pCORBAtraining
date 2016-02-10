@@ -29,4 +29,6 @@ public:
 	virtual CORBA::Boolean MulComplexAsAny(const CORBA::Any& x, const CORBA::Any& y, CORBA::Any_OUT_arg result);
 	virtual void DataTimeTransfer(CORBA::LongLong& DataTimeValue);
 	virtual void ThrowExceptions(CORBA::Long excptionVariant);
+	virtual CORBA::Boolean setCallBack(First::ITestCallBack_ptr callBack);
+	virtual First::ITestCallBack_ptr callCallBack();
 };

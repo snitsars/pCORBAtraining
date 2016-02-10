@@ -154,3 +154,15 @@ void CServerImpl::ThrowExceptions(CORBA::Long excptionVariant)
 	}
 	}
 }
+
+CORBA::Boolean CServerImpl::setCallBack(First::ITestCallBack_ptr callBack)
+{
+	CORBA::NO_IMPLEMENT(1,CORBA::COMPLETED_NO)._raise();
+	return false;
+}
+
+First::ITestCallBack_ptr CServerImpl::callCallBack()
+{
+	CORBA::NO_IMPLEMENT(1, CORBA::COMPLETED_NO)._raise();
+	return nullptr;
+}
