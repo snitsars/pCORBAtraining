@@ -70,7 +70,6 @@ namespace Org.Uneta.Iiopnet.Examples.First
 
         public void DataTimeTransfer(ref long dataTimeValue)
         {
-            string strDateTime = "08/02/2016 00:00:00.00";
             DateTime dtServerTime = new DateTime(2016, 2, 8);
             DateTime dtFromClient = DateTime.FromFileTimeUtc(dataTimeValue);
             if (dtServerTime == dtFromClient)
@@ -125,6 +124,12 @@ namespace Org.Uneta.Iiopnet.Examples.First
         public ITestCallBack callCallBack()
         {
             return _callBack;
+        }
+
+        public int[] Reverse(int[] seq)
+        {
+            Array.Reverse(seq);
+            return seq;
         }
     }
 

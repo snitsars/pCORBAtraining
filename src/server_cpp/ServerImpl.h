@@ -33,4 +33,5 @@ public:
 	virtual void ThrowExceptions(CORBA::Long excptionVariant);
 	virtual CORBA::Boolean setCallBack(First::ITestCallBack_ptr callBack);
 	virtual First::ITestCallBack_ptr callCallBack();
+	virtual First::SequenceLong* Reverse(const First::SequenceLong& seq);
 };

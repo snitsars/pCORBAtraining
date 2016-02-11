@@ -211,11 +211,27 @@ namespace Org.Uneta.Iiopnet.Examples.First
                 #region callbackCall
 
                 {
-                    string result = hello.callCallBack().getDecoratedString("Hello world");
-                    Console.WriteLine(" Decorated String: " + result);
+                    //string result = hello.callCallBack().getDecoratedString("Hello world");
+                    //Console.WriteLine(" Decorated String: " + result);
                 }
                 #endregion
+
+                #region sequense
+                try
+                {
+                    Console.Write("  Sequence reversed: ");
+                    int[] array = {1, 3, 5, 7, 10};
+                    int[] reversed_arr = hello.Reverse(array);
+
+                    check(System.Linq.Enumerable.SequenceEqual(new int[]{10, 7, 5, 3, 1}, reversed_arr));
+
+                }
+                catch(Exception)
+                {
+                    check(false);
+                }
                 return FirstClient._result;
+                #endregion
 
             }
             catch (Exception e)

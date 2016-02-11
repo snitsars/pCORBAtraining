@@ -140,23 +140,51 @@ int main(int argc, char** argv)
 	
 	result = 0;
 
-	std::cout << "  AddValue: ";
-	check(5 == hello->AddValue(2, 3));
+	try
+	{
+		std::cout << "  AddValue: ";
+		check(5 == hello->AddValue(2, 3));
+	}
+	catch (...)
+	{
+		check(false);
+	}
 
-	std::cout << "  SayHello: ";
-	check(std::wstring(L"Hello, Andy. It's Bob.") == (wchar_t*)CORBA::WString_var(hello->SayHello(L"Andy")));
+	try
+	{
+		std::cout << "  SayHello: ";
+		check(std::wstring(L"Hello, Andy. It's Bob.") == (wchar_t*)CORBA::WString_var(hello->SayHello(L"Andy")));
+	}
+	catch (...)
+	{
+		check(false);
+	}
+
+	try
 	{
 		std::cout << "  SayHello2: ";
 		CORBA::String_var greeting;
 		hello->SayHello2("Andy", greeting.out());
 		check(std::string("Hello, Andy. It's Bob.") == (char*)greeting);
 	}
+	catch (...)
+	{
+		check(false);
+	}
+
+	try
 	{
 		std::cout << "  Message: ";
 		CORBA::String_var message = "Hello, Bob";
 		hello->Message(message.inout());
 		check(std::string("Hello, Andy.") == (char*)message);
 	}
+	catch (...)
+	{
+		check(false);
+	}
+
+	try
 	{
 		std::cout << "  MulComplex: ";
 		First::MyComplexNumber x, y;
@@ -169,7 +197,12 @@ int main(int argc, char** argv)
 		First::MyComplexNumber result = hello->MulComplex(x, y);
 		check(equal(result, expected) && equal(result, y));
 	}
+	catch (...)
+	{
+		check(false);
+	}
 
+	try
 	{
 		std::cout << "  MulComplexAsAny: ";
 		First::MyComplexNumber x, y;
@@ -191,6 +224,12 @@ int main(int argc, char** argv)
 		
 		check(success && result && equal(*result, expected));
 	}
+	catch (...)
+	{
+		check(false);
+	}
+
+	try
 	{
 		std::cout << "  DataTimeTransfer: ";
 		SYSTEMTIME initial_systemtime = {};
@@ -214,99 +253,136 @@ int main(int argc, char** argv)
 
 		check(CompareFileTime(&initial_filetime, &return_filetime) == 0);
 	}
+	catch (...)
 	{
-		try
-		{
-			std::cout << "  Install exceptions hadlers: ";
-			omniORB::installTransientExceptionHandler(hello, 0, transientExceptionHandler);
-			omniORB::installSystemExceptionHandler(hello, 0, systemExceptionHandler);
-			check(true);
-		}
-		catch (...)
-		{
-			check(false);
-		}
-
-		try
-		{
-			std::cout << "  Catch NO_IMPLEMENT: ";
-			expectedExceptionType = SYSTEM_EXCEPTION_TYPE;
-			exceptionProperlyHandled = false;
-			hello->ThrowExceptions(0);	
-		}
-		catch (CORBA::NO_IMPLEMENT& se)
-		{
-			check(exceptionProperlyHandled && 1 == se.minor());
-		}
-		catch (...)
-		{
-			check(false);
-		}
-		
-		try
-		{
-			std::cout << "  Catch TRANSIENT: ";
-			expectedExceptionType = TRANSIENT_EXCEPTION_TYPE;
-			exceptionProperlyHandled = false;
-			hello->ThrowExceptions(3);
-		}
-		catch (CORBA::TRANSIENT& se)
-		{			
-			std::string ex_neame = se._name();
-			check(exceptionProperlyHandled && ex_neame.compare("TRANSIENT") == 0);
-		}
-		catch (...)
-		{
-			check(false);
-		}
-		
-		try
-		{
-			std::cout << "  Catch plain user exception: ";
-			hello->ThrowExceptions(1);			
-		}
-		catch (First::IHello::UserExceptionS& ue)
-		{
-			check(std::string("UserExceptionS") == ue._name());
-		}
-		catch(...)
-		{
-			check(false);
-		}
-		
-		try
-		{
-			std::cout << "  Catch user exception with members: ";
-			hello->ThrowExceptions(2);
-		}
-		catch (First::IHello::UserExceptionExt& ue)
-		{
-			check((std::string("EXCEPTIONS_WORKS") == (char*)ue.reason) && (254 == ue.codeError));
-		}
-		catch (...)
-		{
-			check(false);
-		}
-
-		try
-		{
-			std::cout << "  Catch unknown exception: ";
-			hello->ThrowExceptions(4);
-		}
-		catch (CORBA::UNKNOWN& se)
-		{
-			check(std::string("UNKNOWN") == (char*)se._name());
-		}
-		catch (...)
-		{
-			check(false);
-		}
+		check(false);
 	}
+
+	try
+	{
+		std::cout << "  Install exceptions hadlers: ";
+		omniORB::installTransientExceptionHandler(hello, 0, transientExceptionHandler);
+		omniORB::installSystemExceptionHandler(hello, 0, systemExceptionHandler);
+		check(true);
+	}
+	catch (...)
+	{
+		check(false);
+	}
+
+	try
+	{
+		std::cout << "  Catch NO_IMPLEMENT: ";
+		expectedExceptionType = SYSTEM_EXCEPTION_TYPE;
+		exceptionProperlyHandled = false;
+		hello->ThrowExceptions(0);	
+	}
+	catch (CORBA::NO_IMPLEMENT& se)
+	{
+		check(exceptionProperlyHandled && 1 == se.minor());
+	}
+	catch (...)
+	{
+		check(false);
+	}
+		
+	try
+	{
+		std::cout << "  Catch TRANSIENT: ";
+		expectedExceptionType = TRANSIENT_EXCEPTION_TYPE;
+		exceptionProperlyHandled = false;
+		hello->ThrowExceptions(3);
+	}
+	catch (CORBA::TRANSIENT& se)
+	{			
+		std::string ex_neame = se._name();
+		check(exceptionProperlyHandled && ex_neame.compare("TRANSIENT") == 0);
+	}
+	catch (...)
+	{
+		check(false);
+	}
+		
+	try
+	{
+		std::cout << "  Catch plain user exception: ";
+		hello->ThrowExceptions(1);			
+	}
+	catch (First::IHello::UserExceptionS& ue)
+	{
+		check(std::string("UserExceptionS") == ue._name());
+	}
+	catch(...)
+	{
+		check(false);
+	}
+		
+	try
+	{
+		std::cout << "  Catch user exception with members: ";
+		hello->ThrowExceptions(2);
+	}
+	catch (First::IHello::UserExceptionExt& ue)
+	{
+		check((std::string("EXCEPTIONS_WORKS") == (char*)ue.reason) && (254 == ue.codeError));
+	}
+	catch (...)
+	{
+		check(false);
+	}
+
+	try
+	{
+		std::cout << "  Catch unknown exception: ";
+		hello->ThrowExceptions(4);
+	}
+	catch (CORBA::UNKNOWN& se)
+	{
+		check(std::string("UNKNOWN") == (char*)se._name());
+	}
+	catch (...)
+	{
+		check(false);
+	}
+
+	try
 	{
 		std::cout << " Call back: ";
 		std::wstring result = hello->callCallBack()->getDecoratedString(L"Hello world");
 		std::cout << " Decorated String: " << result.c_str();
 	}
+	catch (...)
+	{
+		check(false);
+	}
+
+	try
+	{
+		std::cout << "  Sequence reversed: ";
+
+		int row[] = { 1, 3, 5, 7, 10 };
+		int length = sizeof(row) / sizeof(row[0]);
+
+		First::SequenceLong_var sequence(new First::SequenceLong());
+		sequence->length(length);
+		for (int i = 0; i < length; ++i)
+		{
+			sequence[i] = row[i];
+		}
+		
+		First::SequenceLong_var reversed = hello->Reverse(sequence.in());
+
+		if (5 == reversed->length())
+		{
+			check((reversed[0] == row[4]) && (reversed[1] == row[3]) && (reversed[2] == row[2]) && (reversed[3] == row[1]) && (reversed[4] == row[0]));
+		} else
+			check(false);
+	}
+	catch (...)
+	{
+		check(false);
+	}
+
 	return result;
 }
 

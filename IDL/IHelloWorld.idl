@@ -24,6 +24,8 @@ module First
 		wstring getDecoratedString(in wstring a_Input);
 	};
 
+	typedef sequence<long> SequenceLong;
+
 	interface IHello
 	{
 		exception UserExceptionS{};
@@ -39,6 +41,8 @@ module First
 		void ThrowExceptions(in long excptionVariant) raises(UserExceptionS, UserExceptionExt);
 		boolean setCallBack(in ITestCallBack callBack);
 		ITestCallBack callCallBack();
+
+		SequenceLong Reverse(in SequenceLong seq);
 	};
 };
 
