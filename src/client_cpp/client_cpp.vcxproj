@@ -159,9 +159,11 @@
     <ClCompile Include="..\server_cpp\IHelloWorldDynSK.cc" />
     <ClCompile Include="..\server_cpp\IHelloWorldSK.cc" />
     <ClCompile Include="client_cpp.cpp" />
+    <ClCompile Include="TestCallBackImpl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\server_cpp\IHelloWorld.hh" />
+    <ClInclude Include="TestCallBackImpl.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

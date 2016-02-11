@@ -157,12 +157,11 @@ void CServerImpl::ThrowExceptions(CORBA::Long excptionVariant)
 
 CORBA::Boolean CServerImpl::setCallBack(First::ITestCallBack_ptr callBack)
 {
-	CORBA::NO_IMPLEMENT(1,CORBA::COMPLETED_NO)._raise();
-	return false;
+	test_callBack = callBack;
+	return true;
 }
 
 First::ITestCallBack_ptr CServerImpl::callCallBack()
-{
-	CORBA::NO_IMPLEMENT(1, CORBA::COMPLETED_NO)._raise();
-	return nullptr;
+{	
+	return test_callBack;
 }

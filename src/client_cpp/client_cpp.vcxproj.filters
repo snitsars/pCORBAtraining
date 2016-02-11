@@ -24,9 +24,15 @@
     <ClCompile Include="..\server_cpp\IHelloWorldDynSK.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TestCallBackImpl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\server_cpp\IHelloWorld.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCallBackImpl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

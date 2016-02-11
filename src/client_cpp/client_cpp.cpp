@@ -1,4 +1,5 @@
 #include "..\server_cpp\IHelloWorld.hh"
+#include "TestCallBackImpl.h"
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -7,6 +8,7 @@ class ORBHolder
 {
 	CORBA::ORB_var mORB;
 	First::IHello_ptr mpHello;
+	First::ITestCallBack_ptr mpCallBack;
 public:
 
 	ORBHolder(int argc, char** argv)
@@ -132,6 +134,10 @@ int main(int argc, char** argv)
 	ORBHolder holder(argc, argv);
 	First::IHello_ptr hello = holder.getHello();
 
+	//First::ITestCallBack_ptr testCallBack =  First::TestCallBackImpl::_
+
+	//hello->setCallBack(testCallBack);
+	
 	result = 0;
 
 	std::cout << "  AddValue: ";
@@ -295,6 +301,11 @@ int main(int argc, char** argv)
 		{
 			check(false);
 		}
+	}
+	{
+		std::cout << " Call back: ";
+		std::wstring result = hello->callCallBack()->getDecoratedString(L"Hello world");
+		std::cout << " Decorated String: " << result.c_str();
 	}
 	return result;
 }
