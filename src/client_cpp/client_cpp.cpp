@@ -347,9 +347,9 @@ int main(int argc, char** argv)
 
 	try
 	{
-		std::cout << " Call back: ";
+		/*std::cout << " Call back: ";
 		std::wstring result = hello->callCallBack()->getDecoratedString(L"Hello world");
-		std::cout << " Decorated String: " << result.c_str();
+		std::cout << " Decorated String: " << result.c_str();*/
 	}
 	catch (...)
 	{

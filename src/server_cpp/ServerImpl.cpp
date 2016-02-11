@@ -168,10 +168,9 @@ First::ITestCallBack_ptr CServerImpl::callCallBack()
 
 First::SequenceLong* CServerImpl::Reverse(const First::SequenceLong& seq)
 {
-	unsigned long length = seq.length();
-	std::cout << length << " ";
-
 	First::SequenceLong* reversed = new First::SequenceLong();
+
+	unsigned long length = seq.length();
 	reversed->length(length);
 
 	for (unsigned long i = 0; i < length; ++i)
