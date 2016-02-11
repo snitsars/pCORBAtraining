@@ -115,14 +115,9 @@ namespace Org.Uneta.Iiopnet.Examples.First
             }
         }
 
-        public bool setCallBack(ITestCallBack callBack)
+        public ITestCallBack callCallBack(ITestCallBack callBack)
         {
             _callBack = callBack;
-            return true;
-        }
-
-        public ITestCallBack callCallBack()
-        {
             return _callBack;
         }
 

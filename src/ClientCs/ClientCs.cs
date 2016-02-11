@@ -6,21 +6,16 @@ using omg.org.CosNaming;
 using omg.org.CORBA;
 using Org.Uneta.Iiopnet.Examples.First.IHello_package;
 
+
 namespace Org.Uneta.Iiopnet.Examples.First
 {
     class TestCallBack : MarshalByRefObject, ITestCallBack
     {
-        public string getDecoratedString(string input)
+        public int getValue(int inputValue)
         {
-            try
-            {
-                return input + "  attached with DateTime " + DateTime.Now.ToString();
+            return inputValue;
             }
-            catch (Exception)
-            {
-                return string.Empty;
-            }
-        }
+
     }
 
     class FirstClient
@@ -64,9 +59,6 @@ namespace Org.Uneta.Iiopnet.Examples.First
 
                 // Получаем ссылку на клиентский прокси.
                 IHello hello = (IHello)nameService.resolve(name);
-
-                var calback = new TestCallBack();
-                hello.setCallBack(calback);
 
                 // tests
                 #region AddValue
@@ -211,8 +203,18 @@ namespace Org.Uneta.Iiopnet.Examples.First
                 #region callbackCall
 
                 {
-                    //string result = hello.callCallBack().getDecoratedString("Hello world");
-                    //Console.WriteLine(" Decorated String: " + result);
+                    const int controlValue = 100;
+                    TestCallBack calback = new TestCallBack();
+                    try
+                    {
+                        Console.WriteLine("Callback: ");
+                        int res = hello.callCallBack(calback).getValue(controlValue);
+                        check(controlValue == res);                        
+                    }
+                    catch (Exception)
+                    {
+                        check(false);
+                    }                    
                 }
                 #endregion
 

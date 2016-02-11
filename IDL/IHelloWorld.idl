@@ -21,7 +21,7 @@ module First
 
 	interface ITestCallBack
 	{
-		wstring getDecoratedString(in wstring a_Input);
+		long getValue(in long inputValue);
 	};
 
 	typedef sequence<long> SequenceLong;
@@ -39,9 +39,7 @@ module First
 		boolean MulComplexAsAny(in any x, in any y, out any result);
 		void DataTimeTransfer(inout long long DataTimeValue);
 		void ThrowExceptions(in long excptionVariant) raises(UserExceptionS, UserExceptionExt);
-		boolean setCallBack(in ITestCallBack callBack);
-		ITestCallBack callCallBack();
-
+		ITestCallBack callCallBack(in ITestCallBack callBack);		 
 		SequenceLong Reverse(in SequenceLong seq);
 	};
 };

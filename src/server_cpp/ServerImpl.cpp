@@ -154,15 +154,9 @@ void CServerImpl::ThrowExceptions(CORBA::Long excptionVariant)
 	}
 	}
 }
-
-CORBA::Boolean CServerImpl::setCallBack(First::ITestCallBack_ptr callBack)
-{
-	test_callBack = callBack;
-	return true;
-}
-
-First::ITestCallBack_ptr CServerImpl::callCallBack()
+First::ITestCallBack_ptr CServerImpl::callCallBack(::First::ITestCallBack_ptr callBack)
 {	
+	test_callBack = callBack;
 	return test_callBack;
 }
 

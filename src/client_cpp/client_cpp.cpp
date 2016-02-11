@@ -8,12 +8,30 @@ class ORBHolder
 {
 	CORBA::ORB_var mORB;
 	First::IHello_ptr mpHello;
-	First::ITestCallBack_ptr mpCallBack;
+
 public:
+	PortableServer::POA_ptr poaBd;
 
 	ORBHolder(int argc, char** argv)
 	{
 		mORB = CORBA::ORB_init(argc, argv);
+
+		CORBA::Object_var obj;
+
+		// Initialise the POA.
+		obj = mORB->resolve_initial_references("RootPOA");
+		PortableServer::POA_var rootpoa = PortableServer::POA::_narrow(obj);
+		PortableServer::POAManager_var pman = rootpoa->the_POAManager();
+		pman->activate();
+
+		// Create a POA with the Bidirectional policy
+		CORBA::PolicyList pl;
+		pl.length(1);
+		CORBA::Any a;
+		a <<= BiDirPolicy::BOTH;
+		pl[0] = mORB->create_policy(BiDirPolicy::BIDIRECTIONAL_POLICY_TYPE, a);
+
+		poaBd = rootpoa->create_POA("bidir", pman, pl);
 
 		CORBA::Object_var objNS = mORB->resolve_initial_references("NameService");
 
@@ -126,7 +144,7 @@ CORBA::Boolean transientExceptionHandler(void* cookie,
 	if (expectedExceptionType == TRANSIENT_EXCEPTION_TYPE)
 		exceptionProperlyHandled = true;
 
-	return false;  
+	return false;
 }
 
 int main(int argc, char** argv)
@@ -134,10 +152,6 @@ int main(int argc, char** argv)
 	ORBHolder holder(argc, argv);
 	First::IHello_ptr hello = holder.getHello();
 
-	//First::ITestCallBack_ptr testCallBack =  First::TestCallBackImpl::_
-
-	//hello->setCallBack(testCallBack);
-	
 	result = 0;
 
 	try
@@ -221,7 +235,7 @@ int main(int argc, char** argv)
 
 		First::MyComplexNumber* result;
 		_result >>= result;
-		
+
 		check(success && result && equal(*result, expected));
 	}
 	catch (...)
@@ -275,7 +289,7 @@ int main(int argc, char** argv)
 		std::cout << "  Catch NO_IMPLEMENT: ";
 		expectedExceptionType = SYSTEM_EXCEPTION_TYPE;
 		exceptionProperlyHandled = false;
-		hello->ThrowExceptions(0);	
+		hello->ThrowExceptions(0);
 	}
 	catch (CORBA::NO_IMPLEMENT& se)
 	{
@@ -285,7 +299,7 @@ int main(int argc, char** argv)
 	{
 		check(false);
 	}
-		
+
 	try
 	{
 		std::cout << "  Catch TRANSIENT: ";
@@ -294,7 +308,7 @@ int main(int argc, char** argv)
 		hello->ThrowExceptions(3);
 	}
 	catch (CORBA::TRANSIENT& se)
-	{			
+	{
 		std::string ex_neame = se._name();
 		check(exceptionProperlyHandled && ex_neame.compare("TRANSIENT") == 0);
 	}
@@ -302,21 +316,21 @@ int main(int argc, char** argv)
 	{
 		check(false);
 	}
-		
+
 	try
 	{
 		std::cout << "  Catch plain user exception: ";
-		hello->ThrowExceptions(1);			
+		hello->ThrowExceptions(1);
 	}
 	catch (First::IHello::UserExceptionS& ue)
 	{
 		check(std::string("UserExceptionS") == ue._name());
 	}
-	catch(...)
+	catch (...)
 	{
 		check(false);
 	}
-		
+
 	try
 	{
 		std::cout << "  Catch user exception with members: ";
@@ -347,17 +361,6 @@ int main(int argc, char** argv)
 
 	try
 	{
-		/*std::cout << " Call back: ";
-		std::wstring result = hello->callCallBack()->getDecoratedString(L"Hello world");
-		std::cout << " Decorated String: " << result.c_str();*/
-	}
-	catch (...)
-	{
-		check(false);
-	}
-
-	try
-	{
 		std::cout << "  Sequence reversed: ";
 
 		int row[] = { 1, 3, 5, 7, 10 };
@@ -369,18 +372,37 @@ int main(int argc, char** argv)
 		{
 			sequence[i] = row[i];
 		}
-		
+
 		First::SequenceLong_var reversed = hello->Reverse(sequence.in());
 
 		if (5 == reversed->length())
 		{
 			check((reversed[0] == row[4]) && (reversed[1] == row[3]) && (reversed[2] == row[2]) && (reversed[3] == row[1]) && (reversed[4] == row[0]));
-		} else
+		}
+		else
 			check(false);
 	}
 	catch (...)
 	{
 		check(false);
+	}
+	{
+		std::cout << " Callback: ";
+		const long controlValue = 100;
+		TestCallBackImpl* pCallback = new TestCallBackImpl();
+		PortableServer::ObjectId_var oid = holder.poaBd->activate_object(pCallback);
+		First::ITestCallBack_ptr callback(pCallback->_this());
+		try
+		{
+			long res = hello->callCallBack(callback)->getValue(controlValue);
+			check(controlValue == res);
+		}
+		catch (...)
+		{
+			check(false);
+		}
+		CORBA::release(callback);
+
 	}
 
 	return result;
