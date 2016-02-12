@@ -1,15 +1,17 @@
 #include "TestCallBackImpl.h"
+#include <iostream>
 
-First::TestCallBackImpl::TestCallBackImpl()
+TestCallBackImpl::TestCallBackImpl()
 {
 }
 
-First::TestCallBackImpl::~TestCallBackImpl()
+TestCallBackImpl::~TestCallBackImpl()
 {
+	std::cout << "~TestCallBackImpl()" << std::endl;
 }
 
-CORBA::WChar* First::TestCallBackImpl::getDecoratedString(const CORBA::WChar* a_Input)
+CORBA::Long TestCallBackImpl::call(::CORBA::Long inputValue)
 {
-	std::wstring result = L"Test done" + (std::wstring)a_Input;
-	return &result[0];
+	greeting += "Hello from Server";
+	return inputValue+7;
 }

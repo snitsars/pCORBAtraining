@@ -6,20 +6,18 @@ using omg.org.CosNaming;
 using omg.org.CORBA;
 using Org.Uneta.Iiopnet.Examples.First.IHello_package;
 
+
 namespace Org.Uneta.Iiopnet.Examples.First
 {
     class TestCallBack : MarshalByRefObject, ITestCallBack
     {
-        public string getDecoratedString(string input)
+        private string greeting = null;
+        public string Greeting { get { return greeting; } }
+
+        public int _call(int inputValue)
         {
-            try
-            {
-                return input + "  attached with DateTime " + DateTime.Now.ToString();
-            }
-            catch (Exception)
-            {
-                return string.Empty;
-            }
+            greeting = "Hello from Server";
+            return inputValue+7;
         }
     }
 
@@ -64,9 +62,6 @@ namespace Org.Uneta.Iiopnet.Examples.First
 
                 // Получаем ссылку на клиентский прокси.
                 IHello hello = (IHello)nameService.resolve(name);
-
-                var calback = new TestCallBack();
-                hello.setCallBack(calback);
 
                 // tests
                 #region AddValue
@@ -125,7 +120,7 @@ namespace Org.Uneta.Iiopnet.Examples.First
 
                     check(success && equal(complexNumber, expected));
                 }
-                catch(System.Exception e)
+                catch(System.Exception)
                 {
                     Console.WriteLine("__NOT RELEVANT__: Known issue with IIOP.NET marshalling <-> omniORB unmarshsalling of 'Any' type");
                 }
@@ -209,10 +204,15 @@ namespace Org.Uneta.Iiopnet.Examples.First
                 }
                 #endregion
                 #region callbackCall
-
+                try
                 {
-                    //string result = hello.callCallBack().getDecoratedString("Hello world");
-                    //Console.WriteLine(" Decorated String: " + result);
+                    Console.WriteLine("  Callback: ");
+                    TestCallBack callback = new TestCallBack();
+                    check(hello.CallMe(callback) && callback.Greeting == "Hello from Server");
+                }
+                catch (Exception)
+                {
+                    check(false);
                 }
                 #endregion
 

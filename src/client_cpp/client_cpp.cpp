@@ -7,13 +7,32 @@
 class ORBHolder
 {
 	CORBA::ORB_var mORB;
-	First::IHello_ptr mpHello;
-	First::ITestCallBack_ptr mpCallBack;
+	First::IHello_var mpHello;
+
+	PortableServer::POA_var poa;
+
 public:
 
 	ORBHolder(int argc, char** argv)
 	{
 		mORB = CORBA::ORB_init(argc, argv);
+
+		CORBA::Object_var obj;
+
+		// Initialise the POA.
+		obj = mORB->resolve_initial_references("RootPOA");
+		PortableServer::POA_var rootpoa = PortableServer::POA::_narrow(obj);
+		PortableServer::POAManager_var pman = rootpoa->the_POAManager();
+		pman->activate();
+
+		// Create a POA with the Bidirectional policy
+		CORBA::PolicyList pl;
+		pl.length(1);
+		CORBA::Any a;
+		a <<= BiDirPolicy::BOTH;
+		pl[0] = mORB->create_policy(BiDirPolicy::BIDIRECTIONAL_POLICY_TYPE, a);
+
+		poa = rootpoa->create_POA("bidir", pman, pl);
 
 		CORBA::Object_var objNS = mORB->resolve_initial_references("NameService");
 
@@ -30,12 +49,19 @@ public:
 
 	~ORBHolder()
 	{
+		std::cout << "destroy" << std::endl;
 		mORB->destroy();
+		std::cout << "destroy done" << std::endl;
 	}
 
 	First::IHello_ptr getHello() const
 	{
 		return mpHello;
+	}
+
+	PortableServer::POA_ptr getPOA() const
+	{
+		return poa;
 	}
 };
 
@@ -134,10 +160,6 @@ int main(int argc, char** argv)
 	ORBHolder holder(argc, argv);
 	First::IHello_ptr hello = holder.getHello();
 
-	//First::ITestCallBack_ptr testCallBack =  First::TestCallBackImpl::_
-
-	//hello->setCallBack(testCallBack);
-	
 	result = 0;
 
 	try
@@ -347,17 +369,6 @@ int main(int argc, char** argv)
 
 	try
 	{
-		/*std::cout << " Call back: ";
-		std::wstring result = hello->callCallBack()->getDecoratedString(L"Hello world");
-		std::cout << " Decorated String: " << result.c_str();*/
-	}
-	catch (...)
-	{
-		check(false);
-	}
-
-	try
-	{
 		std::cout << "  Sequence reversed: ";
 
 		int row[] = { 1, 3, 5, 7, 10 };
@@ -375,13 +386,32 @@ int main(int argc, char** argv)
 		if (5 == reversed->length())
 		{
 			check((reversed[0] == row[4]) && (reversed[1] == row[3]) && (reversed[2] == row[2]) && (reversed[3] == row[1]) && (reversed[4] == row[0]));
-		} else
+		}
+		else
 			check(false);
 	}
 	catch (...)
 	{
 		check(false);
 	}
+
+	try
+	{
+		std::cout << "  Callback: ";
+
+		TestCallBackImpl* pCallback = new TestCallBackImpl();
+		PortableServer::ObjectId_var oid = holder.getPOA()->activate_object(pCallback);
+		First::ITestCallBack_var callback(pCallback->_this());
+		pCallback->_remove_ref();
+
+		check(hello->CallMe(callback) && pCallback->Greeting() == "Hello from Server");
+	}
+	catch (...)
+	{
+		check(false);
+	}
+	
+	std::cout << "===========";
 
 	return result;
 }

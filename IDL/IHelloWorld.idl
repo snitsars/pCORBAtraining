@@ -5,6 +5,8 @@
 
 module First
 {
+	typedef sequence<long> SequenceLong;
+
 	struct MyComplexNumber
 	{
 		long re;
@@ -17,32 +19,26 @@ module First
 		long im;
 	};
 
-	const long ServerPort = 7454;
-
 	interface ITestCallBack
 	{
-		wstring getDecoratedString(in wstring a_Input);
+		long call(in long inputValue);
 	};
-
-	typedef sequence<long> SequenceLong;
 
 	interface IHello
 	{
-		exception UserExceptionS{};
-		exception UserExceptionExt{ string reason; long codeError; };	
+		exception		UserExceptionS{};
+		exception		UserExceptionExt{ string reason; long codeError; };	
 
-		long AddValue(in long a, in long b);		
-		wstring SayHello(in wstring name);
-		void SayHello2(in string name, out string greeting);
-		boolean Message(inout string message);
-		MyComplexNumber MulComplex(in MyComplexNumber x, inout MyComplexNumber y); //for testing purpose inout should just return same data as return value
-		boolean MulComplexAsAny(in any x, in any y, out any result);
-		void DataTimeTransfer(inout long long DataTimeValue);
-		void ThrowExceptions(in long excptionVariant) raises(UserExceptionS, UserExceptionExt);
-		boolean setCallBack(in ITestCallBack callBack);
-		ITestCallBack callCallBack();
-
-		SequenceLong Reverse(in SequenceLong seq);
+		long			AddValue(in long a, in long b);		
+		wstring			SayHello(in wstring name);
+		void			SayHello2(in string name, out string greeting);
+		boolean			Message(inout string message);
+		MyComplexNumber	MulComplex(in MyComplexNumber x, inout MyComplexNumber y); //for testing purpose inout should just return same data as return value
+		boolean			MulComplexAsAny(in any x, in any y, out any result);
+		void			DataTimeTransfer(inout long long DataTimeValue);
+		void			ThrowExceptions(in long excptionVariant) raises(UserExceptionS, UserExceptionExt);
+		SequenceLong	Reverse(in SequenceLong seq);
+		boolean			CallMe(in ITestCallBack callBack);
 	};
 };
 

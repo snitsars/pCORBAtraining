@@ -9,6 +9,7 @@ CServerImpl::CServerImpl()
 
 CServerImpl::~CServerImpl()
 {
+	std::cout << "~CServerImpl()";
 }
 
 CORBA::Long CServerImpl::AddValue(CORBA::Long arg1, CORBA::Long arg2)
@@ -155,17 +156,6 @@ void CServerImpl::ThrowExceptions(CORBA::Long excptionVariant)
 	}
 }
 
-CORBA::Boolean CServerImpl::setCallBack(First::ITestCallBack_ptr callBack)
-{
-	test_callBack = callBack;
-	return true;
-}
-
-First::ITestCallBack_ptr CServerImpl::callCallBack()
-{	
-	return test_callBack;
-}
-
 First::SequenceLong* CServerImpl::Reverse(const First::SequenceLong& seq)
 {
 	First::SequenceLong* reversed = new First::SequenceLong();
@@ -178,4 +168,13 @@ First::SequenceLong* CServerImpl::Reverse(const First::SequenceLong& seq)
 		(*reversed)[i] = seq[length - i - 1];
 	}
 	return reversed;
+}
+
+CORBA::Boolean CServerImpl::CallMe(::First::ITestCallBack_ptr callBack)
+{
+	if (CORBA::is_nil(callBack))
+	{
+		return false;
+	} else
+		return 17 == callBack->call(10);
 }
