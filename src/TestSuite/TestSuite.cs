@@ -70,7 +70,7 @@ namespace ProcessRuner
             ProcessLauncher server1 = new ProcessLauncher("..\\Debug_Win32\\server_cpp.exe");
             Thread.Sleep(1000);
             ProcessLauncher client1 = new ProcessLauncher("..\\Debug_Win32\\client_cpp.exe");
-            client1.wait(3000);
+            client1.wait(7000);
             server1.kill();
             
             Console.WriteLine("client_cpp -> ServerCs");
