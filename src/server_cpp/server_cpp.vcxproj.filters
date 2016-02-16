@@ -21,6 +21,9 @@
     <ClInclude Include="IHelloWorld.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CorbaUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="server.cpp">

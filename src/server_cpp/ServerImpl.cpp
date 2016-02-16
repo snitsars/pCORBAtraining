@@ -3,13 +3,17 @@
 #include <time.h>
 #include <iostream>
 
-CServerImpl::CServerImpl()
+CServerImpl::CServerImpl(CORBA::ORB_ptr pORB) : mpORB(pORB)
 {
 }
 
 CServerImpl::~CServerImpl()
 {
-	std::cout << "~CServerImpl()";
+}
+
+void CServerImpl::Shutdown()
+{
+	mpORB->shutdown(0);
 }
 
 CORBA::Long CServerImpl::AddValue(CORBA::Long arg1, CORBA::Long arg2)

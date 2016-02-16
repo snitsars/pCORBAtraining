@@ -29,6 +29,8 @@ module First
 		exception		UserExceptionS{};
 		exception		UserExceptionExt{ string reason; long codeError; };	
 
+		void			Shutdown();
+
 		long			AddValue(in long a, in long b);		
 		wstring			SayHello(in wstring name);
 		void			SayHello2(in string name, out string greeting);

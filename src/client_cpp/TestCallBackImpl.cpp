@@ -7,7 +7,6 @@ TestCallBackImpl::TestCallBackImpl()
 
 TestCallBackImpl::~TestCallBackImpl()
 {
-	std::cout << "~TestCallBackImpl()" << std::endl;
 }
 
 CORBA::Long TestCallBackImpl::call(::CORBA::Long inputValue)

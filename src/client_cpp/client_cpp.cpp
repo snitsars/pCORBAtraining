@@ -1,69 +1,9 @@
 #include "..\server_cpp\IHelloWorld.hh"
+#include "..\server_cpp\CorbaUtils.h"
 #include "TestCallBackImpl.h"
 #include <string>
 #include <iostream>
 #include <sstream>
-
-class ORBHolder
-{
-	CORBA::ORB_var mORB;
-	First::IHello_var mpHello;
-
-	PortableServer::POA_var poa;
-
-public:
-
-	ORBHolder(int argc, char** argv)
-	{
-		mORB = CORBA::ORB_init(argc, argv);
-
-		CORBA::Object_var obj;
-
-		// Initialise the POA.
-		obj = mORB->resolve_initial_references("RootPOA");
-		PortableServer::POA_var rootpoa = PortableServer::POA::_narrow(obj);
-		PortableServer::POAManager_var pman = rootpoa->the_POAManager();
-		pman->activate();
-
-		// Create a POA with the Bidirectional policy
-		CORBA::PolicyList pl;
-		pl.length(1);
-		CORBA::Any a;
-		a <<= BiDirPolicy::BOTH;
-		pl[0] = mORB->create_policy(BiDirPolicy::BIDIRECTIONAL_POLICY_TYPE, a);
-
-		poa = rootpoa->create_POA("bidir", pman, pl);
-
-		CORBA::Object_var objNS = mORB->resolve_initial_references("NameService");
-
-		CosNaming::NamingContext_var ns;
-		ns = CosNaming::NamingContext::_narrow(objNS);
-
-		CosNaming::Name name;
-		name.length(1);
-		name[0].id = CORBA::string_dup("testService");
-
-		CORBA::Object_var obj1 = ns->resolve(name);
-		mpHello = First::IHello::_narrow(obj1.in());
-	}
-
-	~ORBHolder()
-	{
-		std::cout << "destroy" << std::endl;
-		mORB->destroy();
-		std::cout << "destroy done" << std::endl;
-	}
-
-	First::IHello_ptr getHello() const
-	{
-		return mpHello;
-	}
-
-	PortableServer::POA_ptr getPOA() const
-	{
-		return poa;
-	}
-};
 
 int result;
 
@@ -155,11 +95,8 @@ CORBA::Boolean transientExceptionHandler(void* cookie,
 	return false;  
 }
 
-int main(int argc, char** argv)
+int runTests(CORBA::ORB_var orb, First::IHello_ptr hello)
 {
-	ORBHolder holder(argc, argv);
-	First::IHello_ptr hello = holder.getHello();
-
 	result = 0;
 
 	try
@@ -243,7 +180,7 @@ int main(int argc, char** argv)
 
 		First::MyComplexNumber* result;
 		_result >>= result;
-		
+
 		check(success && result && equal(*result, expected));
 	}
 	catch (...)
@@ -297,7 +234,7 @@ int main(int argc, char** argv)
 		std::cout << "  Catch NO_IMPLEMENT: ";
 		expectedExceptionType = SYSTEM_EXCEPTION_TYPE;
 		exceptionProperlyHandled = false;
-		hello->ThrowExceptions(0);	
+		hello->ThrowExceptions(0);
 	}
 	catch (CORBA::NO_IMPLEMENT& se)
 	{
@@ -307,7 +244,7 @@ int main(int argc, char** argv)
 	{
 		check(false);
 	}
-		
+
 	try
 	{
 		std::cout << "  Catch TRANSIENT: ";
@@ -316,7 +253,7 @@ int main(int argc, char** argv)
 		hello->ThrowExceptions(3);
 	}
 	catch (CORBA::TRANSIENT& se)
-	{			
+	{
 		std::string ex_neame = se._name();
 		check(exceptionProperlyHandled && ex_neame.compare("TRANSIENT") == 0);
 	}
@@ -324,21 +261,21 @@ int main(int argc, char** argv)
 	{
 		check(false);
 	}
-		
+
 	try
 	{
 		std::cout << "  Catch plain user exception: ";
-		hello->ThrowExceptions(1);			
+		hello->ThrowExceptions(1);
 	}
 	catch (First::IHello::UserExceptionS& ue)
 	{
 		check(std::string("UserExceptionS") == ue._name());
 	}
-	catch(...)
+	catch (...)
 	{
 		check(false);
 	}
-		
+
 	try
 	{
 		std::cout << "  Catch user exception with members: ";
@@ -380,7 +317,7 @@ int main(int argc, char** argv)
 		{
 			sequence[i] = row[i];
 		}
-		
+
 		First::SequenceLong_var reversed = hello->Reverse(sequence.in());
 
 		if (5 == reversed->length())
@@ -399,8 +336,10 @@ int main(int argc, char** argv)
 	{
 		std::cout << "  Callback: ";
 
+		PortableServer::POA_var poa = createBidirectionalPOA(orb);
+
 		TestCallBackImpl* pCallback = new TestCallBackImpl();
-		PortableServer::ObjectId_var oid = holder.getPOA()->activate_object(pCallback);
+		PortableServer::ObjectId_var oid = poa->activate_object(pCallback);
 		First::ITestCallBack_var callback(pCallback->_this());
 		pCallback->_remove_ref();
 
@@ -410,8 +349,32 @@ int main(int argc, char** argv)
 	{
 		check(false);
 	}
+
+	try
+	{
+		std::cout << "  Shutdown: ";
+		hello->Shutdown();
+		check(true);
+	}
+	catch (...)
+	{
+		check(false);
+	}
+
+	return result;
+}
+
+int main(int argc, char** argv)
+{
+	int result = -1;
+	CORBA::ORB_var orb = CORBA::ORB_init(argc, argv);
+	{
+		First::IHello_var service = First::IHello::_narrow(getService(orb, "testService"));
+
+		result = runTests(orb, service);
 	
-	std::cout << "===========";
+		orb->destroy();
+	}
 
 	return result;
 }
