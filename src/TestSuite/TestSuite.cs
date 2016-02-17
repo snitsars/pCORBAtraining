@@ -60,12 +60,22 @@ namespace TestSuite
 
     class TestSuiteApp
     {
+        private static string Expand(string path)
+        {
+            string platform = "Win32";
+#if DEBUG
+            return "..\\Debug_" + platform + "\\" + path;
+#else
+            return "..\\Release_" + platform + "\\" + path;
+#endif
+        }
+
         public static void Main()
         {
-            Test t1 = new Test("ClientCs.exe",                      "localhost 1234 1235",  "ServerCs.exe",                     "localhost 1234 1236");
-            Test t2 = new Test("..\\Debug_Win32\\client_cpp.exe",   "",                     "..\\Debug_Win32\\server_cpp.exe",  "");
-            Test t3 = new Test("ClientCs.exe",                      "localhost 1234 1235",  "..\\Debug_Win32\\server_cpp.exe",  "");
-            Test t4 = new Test("..\\Debug_Win32\\client_cpp.exe",   "",                     "ServerCs.exe",                     "localhost 1234 1236");
+            Test t1 = new Test("ClientCs.exe",             "localhost 1234 1235",   "ServerCs.exe",             "localhost 1234 1236");
+            Test t2 = new Test(Expand("client_cpp.exe"),   "",                      Expand("server_cpp.exe"),   "");
+            Test t3 = new Test("ClientCs.exe",              "localhost 1234 1235",  Expand("server_cpp.exe"),   "");
+            Test t4 = new Test(Expand("client_cpp.exe"),   "",                     "ServerCs.exe",              "localhost 1234 1236");
 
             Console.Write("Press enter");
             Console.Read();
