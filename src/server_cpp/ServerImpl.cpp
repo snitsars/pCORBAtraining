@@ -182,3 +182,24 @@ CORBA::Boolean CServerImpl::CallMe(::First::ITestCallBack_ptr callBack)
 	} else
 		return 17 == callBack->call(10);
 }
+
+First::Vector4_slice* CServerImpl::AddVectors(const First::Vector4 x, const First::Vector4 y)
+{
+	First::Vector4_slice* result = First::Vector4_alloc();
+
+	for (int i = 0; i < sizeof(First::Vector4) / sizeof(result[0]); ++i)
+		result[i] = x[i] + y[i];
+
+	return result;
+}
+
+First::Matrix3x4_slice* CServerImpl::AddMatrixes(const First::Matrix3x4 x, const First::Matrix3x4 y)
+{
+	First::Matrix3x4_slice* result = First::Matrix3x4_alloc();
+
+	for (int i = 0; i < sizeof(First::Matrix3x4) / sizeof(x[0]); ++i) // 3
+		for (int j = 0; j < sizeof(x[0]) / sizeof(x[0][0]); ++j) // 4
+			result[i][j] = x[i][j] + y[i][j];
+
+	return result;
+}

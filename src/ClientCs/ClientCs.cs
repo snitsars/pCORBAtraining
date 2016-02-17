@@ -216,6 +216,64 @@ namespace Org.Uneta.Iiopnet.Examples.First
             }
             #endregion
 
+            #region Pass single dimensional array
+            try
+            {
+                Console.Write("  Pass single dimensional array: ");
+
+                double[] x = { 1.0, 2.0, 3, 4.1};
+                double[] y = { 2.0, 7.0, -0, -9};
+
+                double[] expected = {
+                    x[0] + y[0],
+                    x[1] + y[1],
+                    x[2] + y[2],
+                    x[3] + y[3]
+                };
+
+                double[] result = hello.AddVectors(x, y);
+                check(result[0] == expected[0] && result[1] == expected[1] && result[2] == expected[2] && result[3] == expected[3]);
+            }
+            catch (Exception)
+            {
+                check(false);
+            }
+            #endregion
+
+            #region Pass multi dimensional array
+            try
+            {
+                Console.Write("  Pass multi dimensional array: ");
+
+                double[,] x = {
+                    { 1.0,  -2.0,  3, 4.1 },
+                    { 2.0,   4.0, -6, 8.1 },
+                    { -3.0, -5.0,  7,  -1 }
+                };
+
+                double[,] y = {
+                    { 3.0,  -2.4,  3,  -0 },
+                    { 6.0,   2.0, -7, 8.9 },
+                    { -7.0, -1.0,  7,   1 }
+                };
+
+                double[,] expected = {
+                    { x[0, 0] + y[0, 0], x[0, 1] + y[0, 1], x[0, 2] + y[0, 2], x[0, 3] + y[0, 3]},
+                    { x[1, 0] + y[1, 0], x[1, 1] + y[1, 1], x[1, 2] + y[1, 2], x[1, 3] + y[1, 3]},
+                    { x[2, 0] + y[2, 0], x[2, 1] + y[2, 1], x[2, 2] + y[2, 2], x[2, 3] + y[2, 3]}
+                };
+
+                double[,] result = hello.AddMatrixes(x, y);
+
+                //check selectively
+                check(result[0, 0] == expected[0, 0] && result[1,3] == expected[1, 3] && result[2, 0] == expected[2, 0] && result[2, 3] == expected[2, 3]);
+            }
+            catch (Exception)
+            {
+                check(false);
+            }
+            #endregion
+
             #region Shutdown
             try
             {

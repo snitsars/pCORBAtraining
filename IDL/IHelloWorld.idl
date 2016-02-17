@@ -6,6 +6,8 @@
 module First
 {
 	typedef sequence<long> SequenceLong;
+	typedef double Matrix3x4[3][4];
+	typedef double Vector4[4];
 
 	struct MyComplexNumber
 	{
@@ -41,6 +43,9 @@ module First
 		void			ThrowExceptions(in long excptionVariant) raises(UserExceptionS, UserExceptionExt);
 		SequenceLong	Reverse(in SequenceLong seq);
 		boolean			CallMe(in ITestCallBack callBack);
+
+		Vector4			AddVectors(in Vector4 x, in Vector4 y);
+		Matrix3x4		AddMatrixes(in Matrix3x4 x, in Matrix3x4 y);
 	};
 };
 

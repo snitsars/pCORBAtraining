@@ -352,6 +352,69 @@ int runTests(CORBA::ORB_var orb, First::IHello_ptr hello)
 
 	try
 	{
+		std::cout << "  Pass single dimensional array: ";
+
+		First::Vector4_var x = First::Vector4_alloc();
+		x[0] = 1.0; x[1] = 2.0; x[2] = 3; x[3] = -4.0;
+
+		First::Vector4_var y = First::Vector4_alloc();
+		y[0] = -1.0; y[1] = 12.0; y[2] = 4.1; y[3] = 0;
+
+		double expected[] = {
+			x[0] + y[0],
+			x[1] + y[1],
+			x[2] + y[2],
+			x[3] + y[3]
+		};
+
+		First::Vector4_slice* result = hello->AddVectors(x, y);
+		bool equal = result[0] == expected[0] && result[1] == expected[1] && result[2] == expected[2] && result[3] == expected[3];
+		
+		First::Vector4_free(result);
+
+		check(equal);
+	}
+	catch (...)
+	{
+		check(false);
+	}
+
+	try
+	{
+		std::cout << "  Pass multi dimensional array: ";
+
+		First::Matrix3x4_var x = First::Matrix3x4_alloc();
+		x[0][0] =  1.0; x[0][1] = -2.0; x[0][2] =  3; x[0][3] = 4.1;
+		x[1][0] =  2.0; x[1][1] =  4.0; x[1][2] = -6; x[1][3] = 8.1;
+		x[2][0] = -3.0; x[2][1] = -5.0; x[2][2] =  7; x[2][3] =  -1;
+
+		First::Matrix3x4_var y = First::Matrix3x4_alloc();
+		y[0][0] =  3.0; y[0][1] = -2.4; y[0][2] =  3; y[0][3] =  -0;
+		y[1][0] =  6.0; y[1][1] =  2.0; y[1][2] = -7; y[1][3] = 8.9;
+		y[2][0] = -7.0; y[2][1] = -1.0; y[2][2] =  7; y[2][3] =   1;
+
+		double expected[3][4] = {
+			{ x[0][0] + y[0][0], x[0][1] + y[0][1], x[0][2] + y[0][2], x[0][3] + y[0][3] },
+			{ x[1][0] + y[1][0], x[1][1] + y[1][1], x[1][2] + y[1][2], x[1][3] + y[1][3] },
+			{ x[2][0] + y[2][0], x[2][1] + y[2][1], x[2][2] + y[2][2], x[2][3] + y[2][3] }
+		};
+
+		First::Matrix3x4_slice* result = hello->AddMatrixes(x, y);
+
+		//check selectively
+		bool equal = result[0][0] == expected[0][0] && result[1][3] == expected[1][3] && result[2][0] == expected[2][0] && result[2][3] == expected[2][3];
+
+		First::Matrix3x4_free(result);
+
+		check(equal);
+	}
+	catch (...)
+	{
+		check(false);
+	}
+
+	try
+	{
 		std::cout << "  Shutdown: ";
 		hello->Shutdown();
 		check(true);

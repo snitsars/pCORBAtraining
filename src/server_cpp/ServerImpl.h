@@ -38,4 +38,7 @@ public:
 	virtual First::SequenceLong*	Reverse(const First::SequenceLong& seq);
 	
 	virtual CORBA::Boolean			CallMe(::First::ITestCallBack_ptr callBack);
+
+	virtual First::Vector4_slice*	AddVectors(const First::Vector4 x, const First::Vector4 y);
+	virtual First::Matrix3x4_slice*	AddMatrixes(const First::Matrix3x4 x, const First::Matrix3x4 y);
 };

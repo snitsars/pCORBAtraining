@@ -134,5 +134,39 @@ namespace Org.Uneta.Iiopnet.Examples.First
             Array.Reverse(seq);
             return seq;
         }
+
+        public double[] AddVectors(double[] x, double[] y)
+        {
+            if (x.Length != y.Length)
+                throw new omg.org.CORBA.BAD_PARAM();
+
+            double[] result = new double[x.Length];
+            for (int i = 0; i < x.Length; ++i)
+                result[i] = x[i] + y[i];
+
+            return result;
+        }
+
+        public double[,] AddMatrixes(double[,] x, double[,] y)
+        {
+            int length = x.GetLength(0);
+            int height = x.GetLength(1);
+
+            if (length != y.GetLength(0) || height != y.GetLength(1) || x.Rank != 2 || y.Rank != 2)
+            {
+                throw new omg.org.CORBA.BAD_PARAM();
+            }
+
+            double[,] result = new double[length, height];
+            for(int i=0; i< length; ++i)
+            {
+                for (int j = 0; j < height; ++j)
+                {
+                    result[i, j] = x[i, j] + y[i, j];
+                }
+            }
+
+            return result;
+        }
     }
 }
