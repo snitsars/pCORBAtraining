@@ -1,0 +1,23 @@
+
+<html><head>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+  google.load("visualization", "1", {packages:["corechart"]});
+  google.setOnLoadCallback(function drawVisualization() {
+
+    var chartsdata = [{data : google.visualization.arrayToDataTable([["Time", "Load per two hours", "Average limit"], ["28/06 15:00", 1255, 833], ["28/06 17:00", 11, 833], ["28/06 19:00", 105, 833], ["28/06 21:00", 103, 833], ["28/06 23:00", 234, 833], ["29/06 01:00", 1041, 833], ["29/06 03:00", 0, 833], ["29/06 05:00", 0, 833], ["29/06 07:00", 0, 833], ["29/06 09:00", 0, 833], ["29/06 11:00", 2, 833], ["29/06 13:00", 7, 833], ["29/06 15:00", 43, 833], ["29/06 17:00", 0, 833], ["29/06 19:00", 0, 833], ["29/06 21:00", 1528, 833], ["29/06 23:00", 511, 833], ["30/06 01:00", 0, 833], ["30/06 03:00", 0, 833], ["30/06 05:00", 0, 833], ["30/06 07:00", 0, 833], ["30/06 09:00", 0, 833], ["30/06 11:00", 2, 833], ["30/06 13:00", 0, 833]]), options : {"vAxis": {"title": "Calls"}, "series": {"0": {"type": "bars"}}, "seriesType": "line", "hAxis": {"title": "Time"}, "title": "Etsy two-hourly API usage"}},{data : google.visualization.arrayToDataTable([["Time", "Cumulative load", "Daily limit"], ["28/06 15:00", 2211, 10000], ["28/06 17:00", 2204, 10000], ["28/06 19:00", 2304, 10000], ["28/06 21:00", 2407, 10000], ["28/06 23:00", 2628, 10000], ["29/06 01:00", 2751, 10000], ["29/06 03:00", 2751, 10000], ["29/06 05:00", 2751, 10000], ["29/06 07:00", 2751, 10000], ["29/06 09:00", 2751, 10000], ["29/06 11:00", 2753, 10000], ["29/06 13:00", 2758, 10000], ["29/06 15:00", 1546, 10000], ["29/06 17:00", 1535, 10000], ["29/06 19:00", 1430, 10000], ["29/06 21:00", 2855, 10000], ["29/06 23:00", 3132, 10000], ["30/06 01:00", 2091, 10000], ["30/06 03:00", 2091, 10000], ["30/06 05:00", 2091, 10000], ["30/06 07:00", 2091, 10000], ["30/06 09:00", 2091, 10000], ["30/06 11:00", 2091, 10000], ["30/06 13:00", 2084, 10000]]), options : {"vAxis": {"title": "Calls"}, "series": null, "seriesType": "line", "hAxis": {"title": "Time"}, "title": "Cumulative API usage for last 24 hours"}}]
+
+    for (i=0; i < chartsdata.length; ++i) {
+      var chart = new google.visualization.ComboChart(document.getElementById('chart_div'+i));
+      chart.draw(chartsdata[i].data, chartsdata[i].options);
+    }
+  })
+
+</script>
+</head>
+
+  <body>
+    <div id="chart_div0" style="width: 700px; height: 400px; float:right"></div>
+    <div id="chart_div1" style="width: 700px; height: 400px;"></div>
+  </body>
+</html>

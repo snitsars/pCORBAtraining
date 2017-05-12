@@ -1,0 +1,33 @@
+{
+	u'count': 3, 
+	u'type': u'FavoriteUser', 
+	u'pagination': {
+		u'effective_limit': 25, 
+		u'effective_page': 1, 
+		u'next_page': None, 
+		u'effective_offset': 0, 
+		u'next_offset': None
+	}, 
+	u'params': {
+		u'limit': u'25', 
+		u'user_id': u'__SELF__', 
+		u'page': None, 
+		u'offset': u'0'
+	}, 
+	u'results': [{
+		u'favorite_user_id': None, 
+		u'user_id': 37605970, 
+		u'creation_tsz': 1435260803, 
+		u'target_user_id': 68133180
+	}, {
+		u'favorite_user_id': None, 
+		u'user_id': 53060569, 
+		u'creation_tsz': 1435251366, 
+		u'target_user_id': 68133180
+	}, {
+		u'favorite_user_id': None, 
+		u'user_id': 62870306, 
+		u'creation_tsz': 1434610444, 
+		u'target_user_id': 68133180
+	}]
+}

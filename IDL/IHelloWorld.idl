@@ -1,14 +1,51 @@
-#ifndef __org_uneta_iiopnet_examples_first__
-#define __org_uneta_iiopnet_examples_first__
+#ifndef org_uneta_iiopnet_examples_first
+#define org_uneta_iiopnet_examples_first
 
 #pragma prefix "Org.Uneta.Iiopnet.Examples"
 
 module First
 {
+	typedef sequence<long> SequenceLong;
+	typedef double Matrix3x4[3][4];
+	typedef double Vector4[4];
+
+	struct MyComplexNumber
+	{
+		long re;
+		long im;
+	};
+
+	struct MyOtherDataType
+	{
+		long re;
+		long im;
+	};
+
+	interface ITestCallBack
+	{
+		long call(in long inputValue);
+	};
+
 	interface IHello
 	{
-		wstring AddVAlue(in long a, in long b);
-		wstring SayHello(in wstring name);
+		exception		UserExceptionS{};
+		exception		UserExceptionExt{ string reason; long codeError; };	
+
+		void			Shutdown();
+
+		long			AddValue(in long a, in long b);		
+		wstring			SayHello(in wstring name);
+		void			SayHello2(in string name, out string greeting);
+		boolean			Message(inout string message);
+		MyComplexNumber	MulComplex(in MyComplexNumber x, inout MyComplexNumber y); //for testing purpose inout should just return same data as return value
+		boolean			MulComplexAsAny(in any x, in any y, out any result);
+		void			DataTimeTransfer(inout long long DataTimeValue);
+		void			ThrowExceptions(in long excptionVariant) raises(UserExceptionS, UserExceptionExt);
+		SequenceLong	Reverse(in SequenceLong seq);
+		boolean			CallMe(in ITestCallBack callBack);
+
+		Vector4			AddVectors(in Vector4 x, in Vector4 y);
+		Matrix3x4		AddMatrixes(in Matrix3x4 x, in Matrix3x4 y);
 	};
 };
 

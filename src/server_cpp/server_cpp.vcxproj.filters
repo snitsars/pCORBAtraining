@@ -18,7 +18,10 @@
     <ClInclude Include="ServerImpl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="server.hh">
+    <ClInclude Include="IHelloWorld.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CorbaUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -26,15 +29,18 @@
     <ClCompile Include="server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="serverSK.cc">
+    <ClCompile Include="ServerImpl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ServerImpl.cpp">
+    <ClCompile Include="IHelloWorldSK.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IHelloWorldDynSK.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\idl\server.idl">
+    <CustomBuild Include="..\..\idl\IHelloWorld.idl">
       <Filter>idl</Filter>
     </CustomBuild>
   </ItemGroup>
